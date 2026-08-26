@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 
 interface ContactFormProps {
   endpoint?: string
@@ -22,6 +22,21 @@ export default function ContactForm({ endpoint }: ContactFormProps) {
   const [errors, setErrors] = useState<ContactErrors>({})
   const [status, setStatus] = useState('')
   const [isPending, setIsPending] = useState(false)
+  const nameInput = useRef<HTMLInputElement>(null)
+  const emailInput = useRef<HTMLInputElement>(null)
+  const messageInput = useRef<HTMLTextAreaElement>(null)
+
+  function clearFieldError(field: keyof ContactErrors) {
+    setErrors((currentErrors) => {
+      if (!currentErrors[field]) {
+        return currentErrors
+      }
+
+      const nextErrors = { ...currentErrors }
+      delete nextErrors[field]
+      return nextErrors
+    })
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -47,6 +62,13 @@ export default function ContactForm({ endpoint }: ContactFormProps) {
     setStatus('')
 
     if (Object.keys(nextErrors).length > 0) {
+      if (nextErrors.name) {
+        nameInput.current?.focus()
+      } else if (nextErrors.email) {
+        emailInput.current?.focus()
+      } else {
+        messageInput.current?.focus()
+      }
       return
     }
 
@@ -59,7 +81,10 @@ export default function ContactForm({ endpoint }: ContactFormProps) {
 
       const response = await fetch(submissionUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
         body: JSON.stringify({
           name: trimmedName,
           email: trimmedEmail,
@@ -86,13 +111,22 @@ export default function ContactForm({ endpoint }: ContactFormProps) {
 
   return (
     <form className="contact-form" aria-label="Envíanos tu consulta" noValidate onSubmit={handleSubmit}>
+      {Object.keys(errors).length > 0 && (
+        <p className="contact-error-summary" role="alert">
+          Revisa los campos marcados para enviar tu consulta.
+        </p>
+      )}
       <div className="contact-field">
         <label htmlFor="contact-name">Nombre</label>
         <input
           id="contact-name"
           name="name"
+          ref={nameInput}
           value={name}
-          onChange={(event) => setName(event.target.value)}
+          onChange={(event) => {
+            setName(event.target.value)
+            clearFieldError('name')
+          }}
           aria-describedby={errors.name ? 'name-error' : undefined}
           aria-invalid={Boolean(errors.name)}
           autoComplete="name"
@@ -105,9 +139,13 @@ export default function ContactForm({ endpoint }: ContactFormProps) {
         <input
           id="contact-email"
           name="email"
+          ref={emailInput}
           type="email"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(event) => {
+            setEmail(event.target.value)
+            clearFieldError('email')
+          }}
           aria-describedby={errors.email ? 'email-error' : undefined}
           aria-invalid={Boolean(errors.email)}
           autoComplete="email"
@@ -120,9 +158,13 @@ export default function ContactForm({ endpoint }: ContactFormProps) {
         <textarea
           id="contact-message"
           name="message"
+          ref={messageInput}
           rows={5}
           value={message}
-          onChange={(event) => setMessage(event.target.value)}
+          onChange={(event) => {
+            setMessage(event.target.value)
+            clearFieldError('message')
+          }}
           aria-describedby={errors.message ? 'message-error' : undefined}
           aria-invalid={Boolean(errors.message)}
         />
