@@ -12,6 +12,6 @@ Archivos esperados:
 - `proyecto-bano-01.webp`
 - `proyecto-detalle-01.webp`
 
-Cada archivo debe partir de un original aprobado por la clienta, tener al menos 1600 px en su lado más largo y exportarse en WebP (con variantes AVIF cuando el flujo de entrega lo requiera). Los recortes deben respetar la composición prevista para cada sección.
+Cada archivo debe partir de un original aprobado por la clienta, tener al menos 1600 px en su lado más largo y procesarse en activos comprimidos WebP y AVIF. Los recortes deben respetar la composición prevista para cada sección.
 
 Todo registro de imagen en `src/content/site.ts` debe llevar texto alternativo intencional que describa el espacio, sus materiales o la luz; no usar nombres de archivo, texto genérico ni texto alternativo vacío para imágenes de contenido.
