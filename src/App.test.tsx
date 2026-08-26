@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react'
 import App from './App'
-import { processSteps, projects, services } from './content/site'
+import { contact, processSteps, projects, services } from './content/site'
 
 test('renders the Ale Espinosa Interiorismo heading', () => {
   render(<App />)
@@ -71,13 +71,39 @@ test('renders every selected project with its responsive, accessible image', () 
 
 test('opens WhatsApp and Instagram in a new tab', () => {
   render(<App />)
-  const whatsappLink = screen.getByRole('link', { name: /whatsapp/i })
+  const whatsappLinks = screen.getAllByRole('link', { name: /whatsapp/i })
   const instagramLinks = screen.getAllByRole('link', { name: /instagram/i })
 
-  expect(whatsappLink).toHaveAttribute('target', '_blank')
-  expect(whatsappLink).toHaveAttribute('rel', 'noreferrer')
+  whatsappLinks.forEach((whatsappLink) => {
+    expect(whatsappLink).toHaveAttribute('target', '_blank')
+    expect(whatsappLink).toHaveAttribute('rel', 'noreferrer')
+  })
   instagramLinks.forEach((instagramLink) => {
     expect(instagramLink).toHaveAttribute('target', '_blank')
     expect(instagramLink).toHaveAttribute('rel', 'noreferrer')
   })
+})
+
+test('provides a contact form and footer alternatives', () => {
+  render(<App />)
+
+  expect(screen.getByRole('form', { name: /envíanos tu consulta/i })).toBeInTheDocument()
+
+  const footer = screen.getByRole('contentinfo')
+  expect(within(footer).getByRole('link', { name: /whatsapp/i })).toHaveAttribute(
+    'href',
+    contact.whatsappUrl,
+  )
+  expect(within(footer).getByRole('link', { name: /correo/i })).toHaveAttribute(
+    'href',
+    `mailto:${contact.email}`,
+  )
+  expect(within(footer).getByRole('link', { name: /instagram/i })).toHaveAttribute(
+    'href',
+    contact.instagramUrl,
+  )
+  expect(within(footer).getByRole('link', { name: /aviso de privacidad/i })).toHaveAttribute(
+    'href',
+    '/aviso-de-privacidad.html',
+  )
 })

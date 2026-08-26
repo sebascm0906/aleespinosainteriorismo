@@ -1,5 +1,7 @@
 import Header from './components/Header'
 import Hero from './components/Hero'
+import ContactForm from './components/ContactForm'
+import Footer from './components/Footer'
 import Process from './components/Process'
 import ProjectGallery from './components/ProjectGallery'
 import SectionHeading from './components/SectionHeading'
@@ -61,7 +63,7 @@ export default function App() {
         </section>
 
         <section
-          className="editorial-section contact-placeholder"
+          className="editorial-section contact-section"
           id={sections.contact.id}
           aria-labelledby={sections.contact.headingId}
         >
@@ -70,8 +72,16 @@ export default function App() {
             eyebrow={sections.contact.eyebrow}
             title={sections.contact.title}
           />
+          <div className="contact-copy">
+            <p>Cuéntanos sobre tu espacio y lo que te gustaría transformar.</p>
+            <a href={contact.whatsappUrl} target="_blank" rel="noreferrer">
+              Prefiero escribir por WhatsApp
+            </a>
+          </div>
+          <ContactForm />
         </section>
       </main>
+      <Footer />
     </>
   )
 }
