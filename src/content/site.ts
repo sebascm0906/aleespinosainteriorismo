@@ -16,12 +16,41 @@ export interface ProcessStep {
   description: string
 }
 
+export interface NavigationItem {
+  href: string
+  label: string
+  isExternal?: boolean
+}
+
+export interface SectionContent {
+  id: string
+  headingId: string
+  eyebrow: string
+  title: string
+  description?: string
+}
+
+export const brand = {
+  monogram: 'AE',
+  name: 'Ale Espinosa Interiorismo',
+  homeHref: '#inicio',
+  homeLabel: 'Ale Espinosa Interiorismo, inicio',
+}
+
 export const contact = {
   whatsappUrl:
     'https://wa.me/52XXXXXXXXXX?text=Hola%20Ale%2C%20me%20gustar%C3%ADa%20solicitar%20una%20asesor%C3%ADa.',
   instagramUrl: 'https://www.instagram.com/alejandraespinosainteriorismo/',
   email: 'pendiente@aleespinosa.mx',
 }
+
+export const navigation: NavigationItem[] = [
+  { href: '#proyectos', label: 'Proyectos' },
+  { href: '#servicios', label: 'Servicios' },
+  { href: '#proceso', label: 'Proceso' },
+  { href: '#contacto', label: 'Contacto' },
+  { href: contact.instagramUrl, label: 'Instagram', isExternal: true },
+]
 
 export const services: Service[] = [
   {
@@ -41,6 +70,47 @@ export const services: Service[] = [
 export const hero = {
   image: '/images/hero-sala-01.webp',
   alt: 'Sala residencial de Ale Espinosa Interiorismo con madera, piedra y luz natural.',
+  eyebrow: 'Diseño con amor',
+  proposition: 'Espacios serenos y personales, diseñados para vivirlos todos los días.',
+  actions: {
+    whatsapp: {
+      href: contact.whatsappUrl,
+      label: 'WhatsApp',
+    },
+    projects: {
+      href: '#proyectos',
+      label: 'Ver proyectos',
+      accessibleLabel: 'Ver el portafolio',
+    },
+  },
+}
+
+export const sections: Record<'projects' | 'services' | 'process' | 'contact', SectionContent> = {
+  projects: {
+    id: 'proyectos',
+    headingId: 'projects-title',
+    eyebrow: 'Portafolio',
+    title: 'Proyectos seleccionados',
+    description: 'Una selección de espacios pensados con atención a la materia, la luz y la vida cotidiana.',
+  },
+  services: {
+    id: 'servicios',
+    headingId: 'services-title',
+    eyebrow: 'Acompañamiento',
+    title: 'Servicios',
+  },
+  process: {
+    id: 'proceso',
+    headingId: 'process-title',
+    eyebrow: 'El camino',
+    title: 'Proceso',
+  },
+  contact: {
+    id: 'contacto',
+    headingId: 'contact-title',
+    eyebrow: 'Hablemos',
+    title: 'Contacto',
+  },
 }
 
 export const processSteps: ProcessStep[] = [

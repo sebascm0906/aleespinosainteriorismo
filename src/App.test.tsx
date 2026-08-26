@@ -21,6 +21,11 @@ test('provides navigation to projects, services and contact', () => {
 
 test('opens WhatsApp and Instagram in a new tab', () => {
   render(<App />)
-  expect(screen.getByRole('link', { name: /whatsapp/i })).toHaveAttribute('target', '_blank')
-  expect(screen.getByRole('link', { name: /instagram/i })).toHaveAttribute('target', '_blank')
+  const whatsappLink = screen.getByRole('link', { name: /whatsapp/i })
+  const instagramLink = screen.getByRole('link', { name: /instagram/i })
+
+  expect(whatsappLink).toHaveAttribute('target', '_blank')
+  expect(whatsappLink).toHaveAttribute('rel', 'noreferrer')
+  expect(instagramLink).toHaveAttribute('target', '_blank')
+  expect(instagramLink).toHaveAttribute('rel', 'noreferrer')
 })

@@ -1,7 +1,7 @@
 import Header from './components/Header'
 import Hero from './components/Hero'
 import SectionHeading from './components/SectionHeading'
-import { services } from './content/site'
+import { sections, services } from './content/site'
 
 export default function App() {
   return (
@@ -10,17 +10,29 @@ export default function App() {
       <main>
         <Hero />
 
-        <section className="editorial-section projects-placeholder" id="proyectos" aria-labelledby="projects-title">
+        <section
+          className="editorial-section projects-placeholder"
+          id={sections.projects.id}
+          aria-labelledby={sections.projects.headingId}
+        >
           <SectionHeading
-            id="projects-title"
-            eyebrow="Portafolio"
-            title="Proyectos seleccionados"
-            description="Una selección de espacios pensados con atención a la materia, la luz y la vida cotidiana."
+            id={sections.projects.headingId}
+            eyebrow={sections.projects.eyebrow}
+            title={sections.projects.title}
+            description={sections.projects.description}
           />
         </section>
 
-        <section className="editorial-section services-section" id="servicios" aria-labelledby="services-title">
-          <SectionHeading id="services-title" eyebrow="Acompañamiento" title="Servicios" />
+        <section
+          className="editorial-section services-section"
+          id={sections.services.id}
+          aria-labelledby={sections.services.headingId}
+        >
+          <SectionHeading
+            id={sections.services.headingId}
+            eyebrow={sections.services.eyebrow}
+            title={sections.services.title}
+          />
           <ul className="services-list">
             {services.map((service) => (
               <li key={service.title}>
@@ -33,12 +45,28 @@ export default function App() {
           </ul>
         </section>
 
-        <section className="editorial-section process-placeholder" id="proceso" aria-labelledby="process-title">
-          <SectionHeading id="process-title" eyebrow="El camino" title="Proceso" />
+        <section
+          className="editorial-section process-placeholder"
+          id={sections.process.id}
+          aria-labelledby={sections.process.headingId}
+        >
+          <SectionHeading
+            id={sections.process.headingId}
+            eyebrow={sections.process.eyebrow}
+            title={sections.process.title}
+          />
         </section>
 
-        <section className="editorial-section contact-placeholder" id="contacto" aria-labelledby="contact-title">
-          <SectionHeading id="contact-title" eyebrow="Hablemos" title="Contacto" />
+        <section
+          className="editorial-section contact-placeholder"
+          id={sections.contact.id}
+          aria-labelledby={sections.contact.headingId}
+        >
+          <SectionHeading
+            id={sections.contact.headingId}
+            eyebrow={sections.contact.eyebrow}
+            title={sections.contact.title}
+          />
         </section>
       </main>
     </>
