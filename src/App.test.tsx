@@ -1,25 +1,45 @@
 import { render, screen, within } from '@testing-library/react'
 import App from './App'
-import { projects } from './content/site'
+import { processSteps, projects, services } from './content/site'
 
 test('renders the Ale Espinosa Interiorismo heading', () => {
   render(<App />)
   expect(screen.getByRole('heading', { name: /ale espinosa interiorismo/i })).toBeInTheDocument()
 })
 
-test('exposes the three approved service names', () => {
+test('renders the approved services as a semantic collection of cards', () => {
   render(<App />)
-  expect(screen.getByText('Interiorismo residencial')).toBeInTheDocument()
-  expect(screen.getByText('Asesoría personalizada')).toBeInTheDocument()
-  expect(screen.getByText('Ejecución y acabados')).toBeInTheDocument()
+  const servicesSection = screen.getByRole('region', { name: 'Servicios' })
+  const serviceList = within(servicesSection).getByRole('list')
+  const serviceItems = within(serviceList).getAllByRole('listitem')
+
+  expect(serviceList.tagName).toBe('UL')
+  expect(serviceItems).toHaveLength(services.length)
+
+  services.forEach((service, index) => {
+    const card = within(serviceItems[index]).getByRole('article')
+
+    expect(within(card).getByRole('heading', { name: service.title })).toBeInTheDocument()
+    expect(within(card).getByText(service.description)).toBeInTheDocument()
+  })
 })
 
-test('shows the three-step process in order', () => {
+test('renders the exported process steps in order as an ordered list', () => {
   render(<App />)
-  expect(screen.getByText('01')).toBeInTheDocument()
-  expect(screen.getByText('Conocer')).toBeInTheDocument()
-  expect(screen.getByText('Diseñar')).toBeInTheDocument()
-  expect(screen.getByText('Habitar')).toBeInTheDocument()
+  const processSection = screen.getByRole('region', { name: 'Proceso' })
+  const processList = within(processSection).getByRole('list')
+  const processItems = within(processList).getAllByRole('listitem')
+
+  expect(processList.tagName).toBe('OL')
+  expect(processItems).toHaveLength(processSteps.length)
+
+  processSteps.forEach((step, index) => {
+    const processItem = within(processItems[index])
+
+    expect(processItem.getByText(step.number)).toBeInTheDocument()
+    expect(processItem.getByRole('heading', { name: step.title })).toBeInTheDocument()
+    expect(processItem.getByText(step.description)).toBeInTheDocument()
+  })
 })
 
 test('provides navigation to projects, services and contact', () => {

@@ -2,13 +2,15 @@ import { services } from '../content/site'
 
 export default function Services() {
   return (
-    <div className="services-list">
+    <ul className="services-list">
       {services.map((service) => (
-        <article key={service.title}>
-          <h3>{service.title}</h3>
-          <p>{service.description}</p>
-        </article>
+        <li key={service.title}>
+          <article>
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+          </article>
+        </li>
       ))}
-    </div>
+    </ul>
   )
 }

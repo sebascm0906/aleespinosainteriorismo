@@ -6,6 +6,7 @@
   --ink: #292721;
   --walnut: #4b372c;
   --olive: #6f7360;
+  --olive-ink: #52563f;
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'DM Sans', Arial, sans-serif;
 }
@@ -112,7 +113,7 @@ img {
 }
 
 .site-navigation a:hover {
-  color: var(--olive);
+  color: var(--olive-ink);
 }
 
 .hero {
@@ -128,7 +129,7 @@ img {
 }
 
 .eyebrow {
-  color: var(--olive);
+  color: var(--olive-ink);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -255,7 +256,7 @@ h1 {
   min-height: 44px;
   align-items: center;
   margin-top: 0.8rem;
-  color: var(--olive);
+  color: var(--olive-ink);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -283,7 +284,7 @@ h1 {
 }
 
 .project-caption p {
-  color: var(--olive);
+  color: var(--olive-ink);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -377,7 +378,7 @@ h1 {
 }
 
 .process-number {
-  color: var(--olive);
+  color: var(--olive-ink);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.14em;
