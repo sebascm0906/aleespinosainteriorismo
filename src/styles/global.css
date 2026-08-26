@@ -218,8 +218,80 @@ h1 {
   margin-top: 1rem;
 }
 
-.projects-placeholder {
+.projects-section {
   background: var(--paper);
+}
+
+.project-gallery {
+  grid-column: 2 / -2;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 2rem);
+  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-card article {
+  height: 100%;
+  overflow: hidden;
+  background: var(--sand);
+}
+
+.project-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.project-caption {
+  padding: 1rem 1.1rem 1.25rem;
+}
+
+.project-caption p {
+  color: var(--olive);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.project-caption h3 {
+  margin-top: 0.35rem;
+  color: var(--walnut);
+  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+}
+
+.project-card-1,
+.project-card-4 {
+  grid-column: span 7;
+}
+
+.project-card-2,
+.project-card-5 {
+  grid-column: span 5;
+}
+
+.project-card-3 {
+  grid-column: 3 / span 5;
+}
+
+.project-card-6 {
+  grid-column: 8 / -1;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .project-card article {
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .project-gallery:has(.project-card:hover) .project-card:not(:hover) article {
+    opacity: 0.72;
+  }
+
+  .project-card:hover article {
+    transform: translateY(-0.35rem);
+  }
 }
 
 .services-section {
@@ -291,7 +363,8 @@ h1 {
   .hero-image,
   .section-heading,
   .services-section .section-heading,
-  .services-list {
+  .services-list,
+  .project-gallery {
     grid-column: 1;
   }
 
@@ -311,5 +384,20 @@ h1 {
 
   .editorial-section {
     gap: 2.5rem;
+  }
+
+  .project-gallery {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    margin-top: 0;
+  }
+
+  .project-card-1,
+  .project-card-2,
+  .project-card-3,
+  .project-card-4,
+  .project-card-5,
+  .project-card-6 {
+    grid-column: 1;
   }
 }

@@ -19,6 +19,12 @@ test('provides navigation to projects, services and contact', () => {
   expect(screen.getByRole('link', { name: /contacto/i })).toHaveAttribute('href', '#contacto')
 })
 
+test('renders every selected project with an accessible image label', () => {
+  render(<App />)
+  expect(screen.getAllByRole('img')).toHaveLength(7)
+  expect(screen.getByText('Proyectos seleccionados')).toBeInTheDocument()
+})
+
 test('opens WhatsApp and Instagram in a new tab', () => {
   render(<App />)
   const whatsappLink = screen.getByRole('link', { name: /whatsapp/i })

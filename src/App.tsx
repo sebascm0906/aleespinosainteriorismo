@@ -1,5 +1,6 @@
 import Header from './components/Header'
 import Hero from './components/Hero'
+import ProjectGallery from './components/ProjectGallery'
 import SectionHeading from './components/SectionHeading'
 import { sections, services } from './content/site'
 
@@ -11,7 +12,7 @@ export default function App() {
         <Hero />
 
         <section
-          className="editorial-section projects-placeholder"
+          className="editorial-section projects-section"
           id={sections.projects.id}
           aria-labelledby={sections.projects.headingId}
         >
@@ -21,6 +22,7 @@ export default function App() {
             title={sections.projects.title}
             description={sections.projects.description}
           />
+          <ProjectGallery />
         </section>
 
         <section
