@@ -137,10 +137,11 @@ h3 {
 }
 
 h1 {
-  max-width: 8ch;
+  max-width: 100%;
   margin-top: 1rem;
   color: var(--walnut);
-  font-size: clamp(4rem, 8vw, 7.5rem);
+  font-size: clamp(3rem, 4.8vw, 5.25rem);
+  overflow-wrap: anywhere;
 }
 
 .hero-proposition {
@@ -218,14 +219,25 @@ h1 {
   background: var(--paper);
 }
 
-.project-gallery {
+.project-carousel {
   grid-column: 2 / -2;
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: clamp(1rem, 2vw, 2rem);
   margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+}
+
+.project-carousel-viewport {
+  overflow: hidden;
+}
+
+.project-gallery {
+  display: flex;
   padding: 0;
   list-style: none;
+  transition: transform 400ms ease;
+}
+
+.project-card {
+  flex: 0 0 100%;
+  min-width: 0;
 }
 
 .brand-story {
@@ -298,36 +310,46 @@ h1 {
   font-size: clamp(1.6rem, 2.5vw, 2.4rem);
 }
 
-.project-card-1,
-.project-card-4 {
-  grid-column: span 7;
+.project-carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
 }
 
-.project-card-2,
-.project-card-5 {
-  grid-column: span 5;
+.project-carousel-controls button,
+.contact-icon-link,
+.floating-whatsapp {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
 }
 
-.project-card-3 {
-  grid-column: 3 / span 5;
+.project-carousel-controls button {
+  color: var(--walnut);
+  background: transparent;
+  cursor: pointer;
 }
 
-.project-card-6 {
-  grid-column: 8 / -1;
+.project-carousel-controls svg,
+.contact-icon-link svg,
+.floating-whatsapp svg {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .project-card article {
-    transition: opacity 180ms ease, transform 180ms ease;
-  }
-
-  .project-gallery:has(.project-card:hover) .project-card:not(:hover) article {
-    opacity: 0.72;
-  }
-
-  .project-card:hover article {
-    transform: translateY(-0.35rem);
-  }
+.project-carousel-controls p {
+  min-width: 8rem;
+  color: var(--olive-ink);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .services-section {
@@ -430,13 +452,48 @@ h1 {
   text-transform: uppercase;
 }
 
-.contact-copy a {
+.contact-channels {
+  display: flex;
+  gap: 0.75rem;
   margin-top: 1rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--paper) 65%, transparent);
+}
+
+.contact-icon-link {
+  color: var(--paper);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.contact-icon-link:hover {
+  background: var(--paper);
+  color: var(--walnut);
 }
 
 .contact-copy a:focus-visible {
   outline-color: var(--paper);
+}
+
+.floating-whatsapp {
+  position: fixed;
+  z-index: 10;
+  left: 1.25rem;
+  bottom: 1.25rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 0;
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 0.75rem 2rem rgb(24 67 47 / 28%);
+}
+
+.floating-whatsapp:hover {
+  background: #1fb85b;
+}
+
+.floating-whatsapp:focus-visible,
+.contact-icon-link:focus-visible,
+.project-carousel-controls button:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 3px;
 }
 
 .contact-form {
@@ -580,7 +637,7 @@ h1 {
   .services-list,
   .brand-story,
   .process-list,
-  .project-gallery {
+  .project-carousel {
     grid-column: 1;
   }
 
@@ -610,9 +667,7 @@ h1 {
     gap: 2.5rem;
   }
 
-  .project-gallery {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.25rem;
+  .project-carousel {
     margin-top: 0;
   }
 
@@ -640,12 +695,12 @@ h1 {
     justify-content: flex-start;
   }
 
-  .project-card-1,
-  .project-card-2,
-  .project-card-3,
-  .project-card-4,
-  .project-card-5,
-  .project-card-6 {
-    grid-column: 1;
+  .project-carousel-controls {
+    justify-content: space-between;
+  }
+
+  .floating-whatsapp {
+    left: 1rem;
+    bottom: 1rem;
   }
 }

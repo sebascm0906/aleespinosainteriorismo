@@ -1,7 +1,9 @@
 import Header from './components/Header'
 import Hero from './components/Hero'
 import ContactForm from './components/ContactForm'
+import ContactChannels from './components/ContactChannels'
 import Footer from './components/Footer'
+import FloatingWhatsApp from './components/FloatingWhatsApp'
 import Process from './components/Process'
 import ProjectGallery from './components/ProjectGallery'
 import SectionHeading from './components/SectionHeading'
@@ -74,14 +76,13 @@ export default function App() {
           />
           <div className="contact-copy">
             <p>Cuéntanos sobre tu espacio y lo que te gustaría transformar.</p>
-            <a href={contact.whatsappUrl} target="_blank" rel="noreferrer">
-              Prefiero escribir por WhatsApp
-            </a>
+            <ContactChannels />
           </div>
           <ContactForm />
         </section>
       </main>
       <Footer />
+      <FloatingWhatsApp />
     </>
   )
 }

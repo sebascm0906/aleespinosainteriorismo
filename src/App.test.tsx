@@ -1,4 +1,5 @@
 import { render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import App from './App'
 import { contact, processSteps, projects, services } from './content/site'
 
@@ -91,6 +92,18 @@ test('renders project images inside a responsive 4:3 crop frame', () => {
   })
 })
 
+test('moves through the selected projects as an accessible carousel', async () => {
+  const user = userEvent.setup()
+  render(<App />)
+
+  expect(screen.getByRole('region', { name: /carrusel de proyectos/i })).toHaveTextContent(projects[0].title)
+
+  await user.click(screen.getByRole('button', { name: /siguiente proyecto/i }))
+
+  expect(screen.getByRole('region', { name: /carrusel de proyectos/i })).toHaveTextContent(projects[1].title)
+  expect(screen.getByRole('status')).toHaveTextContent(`2 de ${projects.length}`)
+})
+
 test('opens WhatsApp and Instagram in a new tab', () => {
   render(<App />)
   const whatsappLinks = screen.getAllByRole('link', { name: /whatsapp/i })
@@ -128,4 +141,14 @@ test('provides a contact form and footer alternatives', () => {
     'href',
     '/aviso-de-privacidad.html',
   )
+})
+
+test('provides icon-only WhatsApp, email, and Instagram contact actions plus a floating WhatsApp link', () => {
+  render(<App />)
+
+  const contactSection = screen.getByRole('region', { name: 'Contacto' })
+  expect(within(contactSection).getByRole('link', { name: 'WhatsApp' })).toHaveClass('contact-icon-link')
+  expect(within(contactSection).getByRole('link', { name: 'Correo electrónico' })).toHaveClass('contact-icon-link')
+  expect(within(contactSection).getByRole('link', { name: 'Instagram' })).toHaveClass('contact-icon-link')
+  expect(screen.getByRole('link', { name: /abrir conversación por whatsapp/i })).toHaveClass('floating-whatsapp')
 })

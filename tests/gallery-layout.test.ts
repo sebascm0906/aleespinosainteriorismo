@@ -21,6 +21,14 @@ test('lays out the hero picture wrapper and lets its image fill the frame', () =
     /\.hero-media\s+\.hero-image\s*\{[^}]*width:\s*100%;[^}]*height:\s*100%;[^}]*min-height:\s*32rem;[^}]*object-fit:\s*cover;[^}]*\}/s,
   )
   expect(styles).toMatch(
-    /@media\s*\(max-width:\s*719px\)\s*\{[\s\S]*?\.brand,[\s\S]*?\.hero-media,[\s\S]*?\.project-gallery\s*\{[^}]*grid-column:\s*1;[^}]*\}/,
+    /@media\s*\(max-width:\s*719px\)\s*\{[\s\S]*?\.brand,[\s\S]*?\.hero-media,[\s\S]*?\.project-carousel\s*\{[^}]*grid-column:\s*1;[^}]*\}/,
+  )
+})
+
+test('keeps the uppercase hero name within its text column', () => {
+  const styles = readFileSync(resolve(process.cwd(), 'src/styles/global.css'), 'utf8')
+
+  expect(styles).toMatch(
+    /h1\s*\{[^}]*max-width:\s*100%;[^}]*font-size:\s*clamp\(3rem,\s*4\.8vw,\s*5\.25rem\);[^}]*overflow-wrap:\s*anywhere;[^}]*\}/s,
   )
 })
