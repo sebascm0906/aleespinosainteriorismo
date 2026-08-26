@@ -69,6 +69,18 @@ test('renders every selected project with its responsive, accessible image', () 
   })
 })
 
+test('renders project images inside a responsive 4:3 crop frame', () => {
+  render(<App />)
+
+  projects.forEach((project) => {
+    const image = screen.getByRole('img', { name: project.alt })
+
+    expect(image).toHaveClass('project-image')
+    expect(image).not.toHaveAttribute('height')
+    expect(image.closest('picture')).toHaveClass('project-image-frame')
+  })
+})
+
 test('opens WhatsApp and Instagram in a new tab', () => {
   render(<App />)
   const whatsappLinks = screen.getAllByRole('link', { name: /whatsapp/i })

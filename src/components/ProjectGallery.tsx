@@ -6,9 +6,9 @@ export default function ProjectGallery() {
       {projects.map((project, index) => (
         <li className={`project-card project-card-${index + 1}`} key={project.title}>
           <article>
-            <picture>
+            <picture className="project-image-frame">
               <source srcSet={project.image.replace(/\.webp$/, '.avif')} type="image/avif" />
-              <img src={project.image} alt={project.alt} loading="lazy" width="1200" height="900" />
+              <img className="project-image" src={project.image} alt={project.alt} loading="lazy" width="1200" />
             </picture>
             <div className="project-caption">
               <p>{project.category}</p>
