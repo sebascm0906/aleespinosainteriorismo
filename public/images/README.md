@@ -1,5 +1,9 @@
 # Inventario de imágenes aprobadas
 
+## Marcadores temporales locales
+
+Mientras se entregan las fotografías aprobadas, los archivos WebP y AVIF esperados contienen un marcador editorial local, no una fotografía de proyecto. Se derivaron de `_placeholder.svg` para evitar solicitudes rotas sin descargar, incrustar o hotlinkear contenido externo. Antes de publicar, cada pareja WebP/AVIF debe sustituirse simultáneamente por derivados del mismo original aprobado por Ale.
+
 No se deben descargar, incrustar ni hotlinkear imágenes desde Instagram. Antes de añadir una fotografía, Ale debe aprobar el original y este debe exportarse localmente a esta carpeta.
 
 Archivos base esperados (WebP):

@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import App from './App'
+import { projects } from './content/site'
 
 test('renders the Ale Espinosa Interiorismo heading', () => {
   render(<App />)
@@ -19,10 +20,25 @@ test('provides navigation to projects, services and contact', () => {
   expect(screen.getByRole('link', { name: /contacto/i })).toHaveAttribute('href', '#contacto')
 })
 
-test('renders every selected project with an accessible image label', () => {
+test('renders every selected project with its responsive, accessible image', () => {
   render(<App />)
   expect(screen.getAllByRole('img')).toHaveLength(7)
   expect(screen.getByText('Proyectos seleccionados')).toBeInTheDocument()
+
+  const projectsSection = screen.getByRole('region', { name: 'Proyectos seleccionados' })
+  expect(within(projectsSection).getAllByRole('listitem')).toHaveLength(projects.length)
+
+  projects.forEach((project) => {
+    const image = screen.getByRole('img', { name: project.alt })
+
+    expect(image).toHaveAttribute('src', project.image)
+    expect(image).toHaveAttribute('alt', project.alt)
+    expect(image).toHaveAttribute('loading', 'lazy')
+    expect(image.closest('picture')?.querySelector('source[type="image/avif"]')).toHaveAttribute(
+      'srcset',
+      project.image.replace(/\.webp$/, '.avif'),
+    )
+  })
 })
 
 test('opens WhatsApp and Instagram in a new tab', () => {
