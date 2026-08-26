@@ -31,10 +31,13 @@ export interface SectionContent {
 }
 
 export const brand = {
-  monogram: 'AE',
-  name: 'Ale Espinosa Interiorismo',
+  name: 'Ale Espinosa INTERIORISMO',
+  logo: {
+    src: '/images/brand/ale-espinosa-logo.png',
+    alt: 'Logo de Ale Espinosa INTERIORISMO',
+  },
   homeHref: '#inicio',
-  homeLabel: 'Ale Espinosa Interiorismo, inicio',
+  homeLabel: 'Ale Espinosa INTERIORISMO, inicio',
 }
 
 export const contact = {
@@ -69,7 +72,7 @@ export const services: Service[] = [
 
 export const hero = {
   image: '/images/hero-sala-01.webp',
-  alt: 'Sala residencial de Ale Espinosa Interiorismo con madera, piedra y luz natural.',
+  alt: 'Sala residencial de Ale Espinosa INTERIORISMO con madera, piedra y luz natural.',
   eyebrow: 'Diseño con amor',
   proposition: 'Espacios serenos y personales, diseñados para vivirlos todos los días.',
   actions: {
@@ -88,7 +91,7 @@ export const hero = {
 export const brandStory = {
   title: 'Sobre Ale',
   description:
-    'Un espacio cobra sentido al habitarlo: la luz, la materia y los objetos se encuentran en la vida cotidiana.',
+    'Ale Espinosa entiende el interiorismo como una forma de acompañar la vida cotidiana. Su mirada parte de escuchar a quienes habitan cada espacio para traducir sus rutinas, recuerdos y aspiraciones en ambientes que se sienten propios. A través de la luz, las texturas, los materiales y los objetos, busca construir interiores cálidos, serenos y funcionales, donde cada detalle suma a una experiencia de hogar más personal.',
   instagramLabel: 'Sigue el proceso en Instagram',
 }
 

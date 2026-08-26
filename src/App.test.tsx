@@ -2,9 +2,19 @@ import { render, screen, within } from '@testing-library/react'
 import App from './App'
 import { contact, processSteps, projects, services } from './content/site'
 
-test('renders the Ale Espinosa Interiorismo heading', () => {
+test('renders the Ale Espinosa INTERIORISMO heading', () => {
   render(<App />)
-  expect(screen.getByRole('heading', { name: /ale espinosa interiorismo/i })).toBeInTheDocument()
+  expect(screen.getByRole('heading', { name: 'Ale Espinosa INTERIORISMO' })).toBeInTheDocument()
+})
+
+test('uses the supplied logo and renders INTERIORISMO in uppercase', () => {
+  render(<App />)
+
+  expect(screen.getByRole('img', { name: 'Logo de Ale Espinosa INTERIORISMO' })).toHaveAttribute(
+    'src',
+    '/images/brand/ale-espinosa-logo.png',
+  )
+  expect(screen.getByRole('heading', { name: 'Ale Espinosa INTERIORISMO' })).toBeInTheDocument()
 })
 
 test('renders the approved services as a semantic collection of cards', () => {
@@ -50,7 +60,7 @@ test('provides navigation to projects, services and contact', () => {
 
 test('renders every selected project with its responsive, accessible image', () => {
   render(<App />)
-  expect(screen.getAllByRole('img')).toHaveLength(7)
+  expect(screen.getAllByRole('img')).toHaveLength(projects.length + 2)
   expect(screen.getByText('Proyectos seleccionados')).toBeInTheDocument()
 
   const projectsSection = screen.getByRole('region', { name: 'Proyectos seleccionados' })

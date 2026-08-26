@@ -4,8 +4,7 @@ export default function Header() {
   return (
     <header className="site-header">
       <a className="brand" href={brand.homeHref} aria-label={brand.homeLabel}>
-        <span className="brand-monogram" aria-hidden="true">{brand.monogram}</span>
-        <span className="brand-name">{brand.name}</span>
+        <img className="brand-logo" src={brand.logo.src} alt={brand.logo.alt} />
       </a>
 
       <nav aria-label="Navegación principal">

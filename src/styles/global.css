@@ -68,21 +68,13 @@ img {
   grid-column: span 3;
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
   min-height: 44px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
-.brand-monogram {
-  color: var(--walnut);
-  font-family: var(--serif);
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.08em;
-  line-height: 1;
+.brand-logo {
+  display: block;
+  width: clamp(5.75rem, 10vw, 8rem);
+  height: auto;
 }
 
 .site-header nav {
