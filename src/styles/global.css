@@ -232,6 +232,40 @@ h1 {
   list-style: none;
 }
 
+.brand-story {
+  grid-column: 9 / -2;
+  align-self: end;
+  max-width: 38ch;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-left: 1px solid color-mix(in srgb, var(--olive) 70%, transparent);
+}
+
+.brand-story h3 {
+  color: var(--walnut);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+.brand-story p {
+  margin-top: 0.65rem;
+}
+
+.brand-story a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-top: 0.8rem;
+  color: var(--olive);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.brand-story a:hover {
+  color: var(--walnut);
+}
+
 .project-card article {
   height: 100%;
   overflow: hidden;
@@ -323,12 +357,43 @@ h1 {
   margin-top: 0.6rem;
 }
 
-.process-placeholder {
-  background: var(--olive);
+.process-section {
+  background: color-mix(in srgb, var(--sand) 45%, var(--paper));
 }
 
-.process-placeholder .eyebrow,
-.process-placeholder h2,
+.process-list {
+  grid-column: 2 / -2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 3rem);
+  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.process-list article {
+  padding-top: 1.25rem;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+}
+
+.process-number {
+  color: var(--olive);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.process-list h3 {
+  margin-top: 1.4rem;
+  color: var(--walnut);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+}
+
+.process-list article > p:last-child {
+  max-width: 35ch;
+  margin-top: 0.7rem;
+}
+
 .contact-placeholder .eyebrow,
 .contact-placeholder h2 {
   color: var(--paper);
@@ -364,6 +429,8 @@ h1 {
   .section-heading,
   .services-section .section-heading,
   .services-list,
+  .brand-story,
+  .process-list,
   .project-gallery {
     grid-column: 1;
   }
@@ -387,6 +454,17 @@ h1 {
   }
 
   .project-gallery {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    margin-top: 0;
+  }
+
+  .brand-story {
+    max-width: 42ch;
+    margin-top: 0;
+  }
+
+  .process-list {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
     margin-top: 0;

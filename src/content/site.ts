@@ -85,6 +85,13 @@ export const hero = {
   },
 }
 
+export const brandStory = {
+  title: 'Sobre Ale',
+  description:
+    'Un espacio cobra sentido al habitarlo: la luz, la materia y los objetos se encuentran en la vida cotidiana.',
+  instagramLabel: 'Sigue el proceso en Instagram',
+}
+
 export const sections: Record<'projects' | 'services' | 'process' | 'contact', SectionContent> = {
   projects: {
     id: 'proyectos',

@@ -1,8 +1,10 @@
 import Header from './components/Header'
 import Hero from './components/Hero'
+import Process from './components/Process'
 import ProjectGallery from './components/ProjectGallery'
 import SectionHeading from './components/SectionHeading'
-import { sections, services } from './content/site'
+import Services from './components/Services'
+import { brandStory, contact, sections } from './content/site'
 
 export default function App() {
   return (
@@ -22,6 +24,13 @@ export default function App() {
             title={sections.projects.title}
             description={sections.projects.description}
           />
+          <aside className="brand-story" aria-labelledby="brand-story-title">
+            <h3 id="brand-story-title">{brandStory.title}</h3>
+            <p>{brandStory.description}</p>
+            <a href={contact.instagramUrl} target="_blank" rel="noreferrer">
+              {brandStory.instagramLabel}
+            </a>
+          </aside>
           <ProjectGallery />
         </section>
 
@@ -35,20 +44,11 @@ export default function App() {
             eyebrow={sections.services.eyebrow}
             title={sections.services.title}
           />
-          <ul className="services-list">
-            {services.map((service) => (
-              <li key={service.title}>
-                <article>
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                </article>
-              </li>
-            ))}
-          </ul>
+          <Services />
         </section>
 
         <section
-          className="editorial-section process-placeholder"
+          className="editorial-section process-section"
           id={sections.process.id}
           aria-labelledby={sections.process.headingId}
         >
@@ -57,6 +57,7 @@ export default function App() {
             eyebrow={sections.process.eyebrow}
             title={sections.process.title}
           />
+          <Process />
         </section>
 
         <section

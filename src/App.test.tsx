@@ -14,6 +14,14 @@ test('exposes the three approved service names', () => {
   expect(screen.getByText('Ejecución y acabados')).toBeInTheDocument()
 })
 
+test('shows the three-step process in order', () => {
+  render(<App />)
+  expect(screen.getByText('01')).toBeInTheDocument()
+  expect(screen.getByText('Conocer')).toBeInTheDocument()
+  expect(screen.getByText('Diseñar')).toBeInTheDocument()
+  expect(screen.getByText('Habitar')).toBeInTheDocument()
+})
+
 test('provides navigation to projects, services and contact', () => {
   render(<App />)
   expect(screen.getByRole('link', { name: /proyectos/i })).toHaveAttribute('href', '#proyectos')
@@ -44,10 +52,12 @@ test('renders every selected project with its responsive, accessible image', () 
 test('opens WhatsApp and Instagram in a new tab', () => {
   render(<App />)
   const whatsappLink = screen.getByRole('link', { name: /whatsapp/i })
-  const instagramLink = screen.getByRole('link', { name: /instagram/i })
+  const instagramLinks = screen.getAllByRole('link', { name: /instagram/i })
 
   expect(whatsappLink).toHaveAttribute('target', '_blank')
   expect(whatsappLink).toHaveAttribute('rel', 'noreferrer')
-  expect(instagramLink).toHaveAttribute('target', '_blank')
-  expect(instagramLink).toHaveAttribute('rel', 'noreferrer')
+  instagramLinks.forEach((instagramLink) => {
+    expect(instagramLink).toHaveAttribute('target', '_blank')
+    expect(instagramLink).toHaveAttribute('rel', 'noreferrer')
+  })
 })
