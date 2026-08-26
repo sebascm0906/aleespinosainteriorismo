@@ -475,7 +475,7 @@ h1 {
 .floating-whatsapp {
   position: fixed;
   z-index: 10;
-  left: 1.25rem;
+  right: 1.25rem;
   bottom: 1.25rem;
   width: 3.5rem;
   height: 3.5rem;
@@ -700,7 +700,7 @@ h1 {
   }
 
   .floating-whatsapp {
-    left: 1rem;
+    right: 1rem;
     bottom: 1rem;
   }
 }

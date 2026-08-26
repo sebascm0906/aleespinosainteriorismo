@@ -32,3 +32,11 @@ test('keeps the uppercase hero name within its text column', () => {
     /h1\s*\{[^}]*max-width:\s*100%;[^}]*font-size:\s*clamp\(3rem,\s*4\.8vw,\s*5\.25rem\);[^}]*overflow-wrap:\s*anywhere;[^}]*\}/s,
   )
 })
+
+test('places the floating WhatsApp action in the bottom-right corner', () => {
+  const styles = readFileSync(resolve(process.cwd(), 'src/styles/global.css'), 'utf8')
+
+  expect(styles).toMatch(
+    /\.floating-whatsapp\s*\{[^}]*position:\s*fixed;[^}]*right:\s*1\.25rem;[^}]*bottom:\s*1\.25rem;[^}]*\}/s,
+  )
+})
