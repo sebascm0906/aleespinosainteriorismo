@@ -20,7 +20,10 @@ export default function Hero() {
           </a>
         </div>
       </div>
-      <img className="hero-image" src={hero.image} alt={hero.alt} fetchPriority="high" />
+      <picture>
+        <source srcSet={hero.image.replace(/\.webp$/, '.avif')} type="image/avif" />
+        <img className="hero-image" src={hero.image} alt={hero.alt} fetchPriority="high" />
+      </picture>
     </section>
   )
 }
