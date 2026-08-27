@@ -25,7 +25,7 @@ De ahí salen tres reglas que el código ya aplica y que no deben revertirse:
 
 1. La sección se llama **«El lenguaje de un espacio»**, no «Portafolio» ni «Proyectos seleccionados».
 2. La galería muestra siempre el aviso `visualLanguage.disclosure`.
-3. El par comparativo se rotula **«Antes» / «Propuesta»**, nunca «Antes / Después». La primera imagen sí es fotografía real del estado original; la segunda es un render. «Después» afirmaría que la obra se construyó.
+3. El par comparativo se rotula **«Antes» / «Después»**, por decisión expresa de la clienta. La primera imagen sí es fotografía real del estado original; la segunda es un render. Se propuso «Propuesta» para no afirmar que la obra se construyó, y la clienta eligió «Después»: quien sostiene la distinción es el aviso de la galería, que por eso no es opcional.
 
 `tests/content-and-readme.test.ts` verifica las tres.
 
@@ -66,9 +66,11 @@ Las variantes en `public/images/brand/` se derivaron de ese PNG separando tinta 
 
 El swash del sitio (`src/components/Swash.tsx`) **no** es una copia del vector de la marca: es un trazo original que repite el gesto, dibujable con `stroke-dashoffset`.
 
-### Retrato de Alejandra — falta el archivo
+### Retrato de Alejandra
 
-`studio.portrait` es `null` y la sección «El estudio» se compone sin imagen. Al recibir el retrato: exportar como `estudio-alejandra` (AVIF + WebP, anchos 640 y nativo) y llenar el objeto en `src/content/site.ts`.
+Entregado por la clienta. El original es horizontal (1080×854); se recortó a 3:4 centrado, que conserva el monograma del muro y la deja a ella en el eje, y se exportó como `estudio-alejandra`.
+
+Mide 640 px de ancho, así que `.studio-portrait` lleva `max-width: 30rem`: sin ese tope, en tablet y móvil la sección lo estira a todo el ancho y lo escala hacia arriba. Si llega un original de mayor resolución, se puede levantar el tope.
 
 ## Formspree
 
@@ -82,7 +84,6 @@ Antes de publicar, en el panel de Formspree:
 ## Bloqueadores de publicación
 
 - [ ] Vector real del logotipo, para sustituir los PNG por SVG.
-- [ ] Retrato de Alejandra para la sección «El estudio».
 - [ ] Correo de contacto confirmado. Hoy es `pendiente@aleespinosa.mx`, un marcador.
 - [ ] Confirmar autoría de los renders y de la fotografía del «antes» antes de publicarlos.
 - [ ] Datos para el JSON-LD `ProfessionalService`: dirección y teléfono público, si la clienta quiere aparecer en búsqueda local. No se inventan.

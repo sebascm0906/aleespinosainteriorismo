@@ -36,8 +36,12 @@
 
   /* Ritmo */
   --margen: clamp(1.25rem, 5vw, 5.5rem);
-  --aire: clamp(4.5rem, 11vw, 10rem);
+  --aire: clamp(3.5rem, 8vw, 7.5rem);
   --canal: clamp(1rem, 2vw, 2rem);
+
+  /* Remate de arco. Repite los espejos y vanos redondeados que aparecen en las
+     imágenes del estudio, y rompe la lectura de retícula toda cuadrada. */
+  --arco: 46% 46% 4px 4px / 22% 22% 4px 4px;
 
   --transicion: 240ms cubic-bezier(0.2, 0.6, 0.2, 1);
 }
@@ -194,9 +198,12 @@ h3 {
   transition: opacity 400ms ease 1100ms;
 }
 
+/* Las secciones vecinas ya aportan su propio --aire arriba y abajo. Sin este tiro
+   negativo se suman dos veces y el swash queda flotando en un vacío del doble de
+   alto que el ritmo del resto de la página. */
 .divisor {
   grid-column: 1 / -1;
-  margin-block: var(--aire);
+  margin-block: calc(var(--aire) * -0.3);
 }
 
 .divisor .swash {
@@ -498,8 +505,12 @@ main[id] {
   aspect-ratio: 3 / 2;
 }
 
+/* Sólo las verticales llevan arco: son las de proporción de vano, y alternarlas
+   con las rectas es lo que le da variedad a la retícula. Si todas lo llevaran
+   dejaría de ser un acento y sería un filtro. */
 .language-figure[data-weight='alta'] button {
   aspect-ratio: 3 / 4;
+  border-radius: var(--arco);
 }
 
 .language-figure button {
@@ -596,9 +607,25 @@ main[id] {
   max-width: 58ch;
 }
 
+/* El archivo nativo mide 640 px de ancho. Sin este tope, en tablet y móvil la
+   sección lo estira a todo el ancho y se escala hacia arriba: se ve blando. */
 .studio-portrait {
-  grid-column: 9 / -2;
+  grid-column: 8 / -2;
+  max-width: 30rem;
   margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
+}
+
+.studio-portrait img {
+  width: 100%;
+  border-radius: var(--arco);
+}
+
+/* Filete de latón siguiendo el arco: el mismo acento de precisión del resto. */
+.studio-portrait picture {
+  display: block;
+  position: relative;
+  border-radius: var(--arco);
+  box-shadow: 0 0 0 1px var(--laton-hondo);
 }
 
 .studio-link {

@@ -2,10 +2,11 @@ import { readFileSync } from 'node:fs'
 import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, test } from 'vitest'
-import { contact, hero, transformation, visualLanguage } from '../src/content/site'
+import { contact, hero, studio, transformation, visualLanguage } from '../src/content/site'
 
 const figuras = [hero.figure, visualLanguage.fullBleed, ...visualLanguage.figures,
-                 transformation.before.figure, transformation.after.figure]
+                 transformation.before.figure, transformation.after.figure,
+                 ...(studio.portrait ? [studio.portrait] : [])]
 
 describe('contrato de imágenes', () => {
   test.each(figuras)('$image declara alt descriptivo y dimensiones reales', (figura) => {
@@ -17,29 +18,31 @@ describe('contrato de imágenes', () => {
     expect(figura.height).toBeGreaterThan(0)
   })
 
-  test.each(figuras)('$image tiene los cuatro archivos del par AVIF+WebP', (figura) => {
+  test.each(figuras)('$image tiene en disco cada archivo que anuncia su srcset', (figura) => {
     const base = resolve(process.cwd(), 'public/images')
-    for (const nombre of [
-      `${figura.image}.avif`,
-      `${figura.image}.webp`,
-      `${figura.image}-640.avif`,
-      `${figura.image}-640.webp`,
-    ]) {
+    // La variante -640 sólo se genera, y sólo se anuncia, si la imagen es más
+    // ancha que 640. Exigirla siempre haría fallar a las que ya nacen pequeñas.
+    const esperados = [`${figura.image}.avif`, `${figura.image}.webp`]
+    if (figura.width > 640) {
+      esperados.push(`${figura.image}-640.avif`, `${figura.image}-640.webp`)
+    }
+    for (const nombre of esperados) {
       expect(existsSync(resolve(base, nombre)), `falta ${nombre}`).toBe(true)
     }
   })
 })
 
 describe('honestidad del contenido', () => {
-  test('la galería declara que son imágenes conceptuales', () => {
-    expect(visualLanguage.disclosure).toMatch(/conceptual/i)
+  test('la galería declara que son conceptos, no obra ejecutada', () => {
+    expect(visualLanguage.disclosure).toMatch(/concepto/i)
   })
 
-  test('el par no se rotula como obra terminada', () => {
-    // La segunda imagen es un render, no fotografía de obra: "Después" afirmaría
-    // que el proyecto se construyó.
-    expect(transformation.after.label).toBe('Propuesta')
-    expect(transformation.after.label).not.toMatch(/despu[eé]s/i)
+  test('el par comparativo lleva ambos rótulos', () => {
+    // La clienta decidió "Antes / Después". Quien sostiene que las imágenes no
+    // son obra ejecutada es el aviso de la galería, que sigue siendo obligatorio.
+    expect(transformation.before.label).toBe('Antes')
+    expect(transformation.after.label).toBe('Después')
+    expect(visualLanguage.disclosure.trim().length).toBeGreaterThan(0)
   })
 
   test('no se afirman cifras, premios ni años de experiencia', () => {

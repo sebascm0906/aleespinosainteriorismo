@@ -6,8 +6,9 @@
  * imagen y datos de contacto son compartidos y no se traducen.
  *
  * IMPORTANTE — las imágenes de `visualLanguage` son renders conceptuales que expresan
- * el estilo del estudio, no fotografía de obra ejecutada. El texto nunca debe
- * presentarlas como proyectos terminados. Ver `visualLanguage.disclosure`.
+ * el estilo del estudio, no fotografía de obra ejecutada. La sección no se llama
+ * portafolio y `visualLanguage.disclosure` siempre se muestra: ese aviso es lo que
+ * sostiene la distinción, sobre todo desde que el par comparativo dice "Después".
  */
 
 export const locale = 'es-MX'
@@ -161,8 +162,11 @@ export const services: Service[] = [
 ]
 
 export const visualLanguage = {
-  /** Aviso obligatorio: son renders conceptuales, no obra ejecutada. */
-  disclosure: 'Imágenes conceptuales que expresan el lenguaje del estudio.',
+  /**
+   * Aviso visible en la galería. La clienta pidió esta redacción; conserva la
+   * palabra "Conceptos", que es lo que sostiene que no son fotos de obra.
+   */
+  disclosure: 'Conceptos y Diseños que expresan el lenguaje del estudio',
   figures: [
     {
       image: 'lenguaje-terraza-pergola',
@@ -268,7 +272,7 @@ export const transformation = {
       height: 1040,
       weight: 'normal',
     } satisfies Figure,
-    label: 'Propuesta',
+    label: 'Después',
   },
 }
 
@@ -279,11 +283,17 @@ export const studio = {
     'Trabaja proyectos residenciales, comerciales y corporativos, con el mismo criterio en todos: que el espacio se sienta propio y siga funcionando dentro de diez años.',
   ],
   /**
-   * PENDIENTE — retrato de Alejandra. El archivo aún no está en disco.
-   * Al recibirlo: exportar como `estudio-alejandra` (AVIF + WebP, ancho 640 y nativo)
-   * y llenar este objeto. Mientras sea null, la sección se compone sin imagen.
+   * Retrato entregado por la clienta. El original es horizontal (1080x854); se
+   * recortó a 3:4 centrado, que conserva el monograma del muro y la deja a ella
+   * en el eje. La sección lo presenta con remate de arco.
    */
-  portrait: null as Figure | null,
+  portrait: {
+    image: 'estudio-alejandra',
+    alt: 'Alejandra Espinosa en su escritorio, revisando un plano, bajo el monograma AE del muro del estudio.',
+    width: 640,
+    height: 854,
+    weight: 'alta',
+  } as Figure | null,
   instagramLabel: 'Ver el proceso en Instagram',
 }
 

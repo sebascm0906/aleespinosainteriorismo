@@ -49,13 +49,16 @@ test('presenta la galería como lenguaje visual y no como obra terminada', () =>
   expect(within(region).queryByText(/proyectos seleccionados/i)).not.toBeInTheDocument()
 })
 
-test('rotula el par como Antes y Propuesta', () => {
+test('rotula el par comparativo y mantiene el aviso de la galería', () => {
   render(<App />)
   const region = screen.getByRole('region', { name: transformation.title })
 
-  expect(within(region).getByText('Antes')).toBeInTheDocument()
-  expect(within(region).getByText('Propuesta')).toBeInTheDocument()
-  expect(within(region).queryByText(/^después$/i)).not.toBeInTheDocument()
+  expect(within(region).getByText(transformation.before.label)).toBeInTheDocument()
+  expect(within(region).getByText(transformation.after.label)).toBeInTheDocument()
+
+  // El aviso es lo que impide que la galería se lea como portafolio de obra.
+  const galeria = screen.getByRole('region', { name: sections.language.title })
+  expect(within(galeria).getByText(visualLanguage.disclosure)).toBeInTheDocument()
 })
 
 test('cada imagen de contenido reserva su espacio y difiere la carga salvo el LCP', () => {
