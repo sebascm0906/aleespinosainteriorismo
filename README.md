@@ -127,4 +127,8 @@ El botón flotante es un enlace `wa.me` y **no requiere WABA**. Si la clienta qu
 
 `index.html` usa `%VITE_SITE_URL%` en `og:url`, `og:image` y el JSON-LD. Open Graph exige URLs absolutas: con una ruta relativa, la vista previa al compartir el enlace por WhatsApp o Facebook aparece **sin imagen**.
 
-Define `VITE_SITE_URL` con el origen del sitio publicado y sin diagonal final, por ejemplo `https://aleespinosainteriorismo.com`, tanto en `.env` local como en las variables de entorno de Vercel. Es un bloqueador de publicación, no un extra.
+Define `VITE_SITE_URL` con el origen del sitio publicado y sin diagonal final, por ejemplo `https://aleespinosainteriorismo.com`, tanto en `.env` local como en las variables de entorno de Vercel.
+
+**En previews de Vercel no hace falta configurarla.** Si `VITE_SITE_URL` no existe, el plugin `origen-absoluto-og` de `vite.config.ts` usa `VERCEL_URL`, que Vercel inyecta en cada despliegue, y las etiquetas salen absolutas igual. En producción sí hay que definirla, porque `VERCEL_URL` apunta al host generado y no al dominio de la clienta.
+
+Sin ninguna de las dos, el build no falla pero avisa en consola y las etiquetas quedan relativas. Vite por su cuenta sólo advertía y publicaba el literal `%VITE_SITE_URL%`, que rompe igual y encima parece un error de programación: por eso existe el plugin.
