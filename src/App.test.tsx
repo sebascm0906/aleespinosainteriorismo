@@ -1,120 +1,161 @@
 import { render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import App from './App'
-import { contact, processSteps, projects, services } from './content/site'
+import { contact, navigation, sections, services, transformation, visualLanguage } from './content/site'
 
-test('renders the Ale Espinosa Interiorismo heading', () => {
+test('encabeza con el nombre completo del estudio', () => {
   render(<App />)
-  expect(screen.getByRole('heading', { name: /ale espinosa interiorismo/i })).toBeInTheDocument()
+  expect(
+    screen.getByRole('heading', { level: 1, name: 'Alejandra Espinosa Interiorismo' }),
+  ).toBeInTheDocument()
 })
 
-test('renders the approved services as a semantic collection of cards', () => {
+test('ofrece un enlace para saltar al contenido', () => {
   render(<App />)
-  const servicesSection = screen.getByRole('region', { name: 'Servicios' })
-  const serviceList = within(servicesSection).getByRole('list')
-  const serviceItems = within(serviceList).getAllByRole('listitem')
+  expect(screen.getByRole('link', { name: /saltar al contenido/i })).toHaveAttribute(
+    'href',
+    '#contenido',
+  )
+})
 
-  expect(serviceList.tagName).toBe('UL')
-  expect(serviceItems).toHaveLength(services.length)
+test('navega a cada sección de la página', () => {
+  render(<App />)
+  const nav = screen.getByRole('navigation', { name: /navegación principal/i })
 
-  services.forEach((service, index) => {
-    const card = within(serviceItems[index]).getByRole('article')
-
-    expect(within(card).getByRole('heading', { name: service.title })).toBeInTheDocument()
-    expect(within(card).getByText(service.description)).toBeInTheDocument()
+  navigation.forEach((item) => {
+    expect(within(nav).getByRole('link', { name: item.label })).toHaveAttribute('href', item.href)
+    // Cada destino de la navegación existe realmente en el documento.
+    expect(document.querySelector(item.href)).not.toBeNull()
   })
 })
 
-test('renders the exported process steps in order as an ordered list', () => {
+test('lista los servicios aprobados', () => {
   render(<App />)
-  const processSection = screen.getByRole('region', { name: 'Proceso' })
-  const processList = within(processSection).getByRole('list')
-  const processItems = within(processList).getAllByRole('listitem')
+  const region = screen.getByRole('region', { name: sections.services.title })
+  const items = within(region).getAllByRole('listitem')
 
-  expect(processList.tagName).toBe('OL')
-  expect(processItems).toHaveLength(processSteps.length)
-
-  processSteps.forEach((step, index) => {
-    const processItem = within(processItems[index])
-
-    expect(processItem.getByText(step.number)).toBeInTheDocument()
-    expect(processItem.getByRole('heading', { name: step.title })).toBeInTheDocument()
-    expect(processItem.getByText(step.description)).toBeInTheDocument()
+  expect(items).toHaveLength(services.length)
+  services.forEach((servicio, i) => {
+    expect(within(items[i]).getByRole('heading', { name: servicio.title })).toBeInTheDocument()
+    expect(within(items[i]).getByText(servicio.description)).toBeInTheDocument()
   })
 })
 
-test('provides navigation to projects, services and contact', () => {
+test('presenta la galería como lenguaje visual y no como obra terminada', () => {
   render(<App />)
-  expect(screen.getByRole('link', { name: /proyectos/i })).toHaveAttribute('href', '#proyectos')
-  expect(screen.getByRole('link', { name: /contacto/i })).toHaveAttribute('href', '#contacto')
+  const region = screen.getByRole('region', { name: sections.language.title })
+
+  expect(within(region).getByText(visualLanguage.disclosure)).toBeInTheDocument()
+  expect(within(region).queryByText(/proyectos seleccionados/i)).not.toBeInTheDocument()
 })
 
-test('renders every selected project with its responsive, accessible image', () => {
+test('rotula el par comparativo y mantiene el aviso de la galería', () => {
   render(<App />)
-  expect(screen.getAllByRole('img')).toHaveLength(7)
-  expect(screen.getByText('Proyectos seleccionados')).toBeInTheDocument()
+  const region = screen.getByRole('region', { name: transformation.title })
 
-  const projectsSection = screen.getByRole('region', { name: 'Proyectos seleccionados' })
-  expect(within(projectsSection).getAllByRole('listitem')).toHaveLength(projects.length)
+  expect(within(region).getByText(transformation.before.label)).toBeInTheDocument()
+  expect(within(region).getByText(transformation.after.label)).toBeInTheDocument()
 
-  projects.forEach((project) => {
-    const image = screen.getByRole('img', { name: project.alt })
+  // El aviso es lo que impide que la galería se lea como portafolio de obra.
+  const galeria = screen.getByRole('region', { name: sections.language.title })
+  expect(within(galeria).getByText(visualLanguage.disclosure)).toBeInTheDocument()
+})
 
-    expect(image).toHaveAttribute('src', project.image)
-    expect(image).toHaveAttribute('alt', project.alt)
-    expect(image).toHaveAttribute('loading', 'lazy')
-    expect(image.closest('picture')?.querySelector('source[type="image/avif"]')).toHaveAttribute(
-      'srcset',
-      project.image.replace(/\.webp$/, '.avif'),
-    )
+test('cada imagen de contenido reserva su espacio y difiere la carga salvo el LCP', () => {
+  render(<App />)
+  const imagenes = screen.getAllByRole('img')
+  expect(imagenes.length).toBeGreaterThan(visualLanguage.figures.length)
+
+  const conAncho = imagenes.filter((img) => img.hasAttribute('width'))
+  conAncho.forEach((img) => {
+    expect(img).toHaveAttribute('height')
+    expect(Number(img.getAttribute('width'))).toBeGreaterThan(0)
+  })
+
+  const diferidas = imagenes.filter((img) => img.getAttribute('loading') === 'lazy')
+  expect(diferidas.length).toBeGreaterThan(0)
+  expect(imagenes.filter((img) => img.getAttribute('fetchpriority') === 'high').length).toBeLessThanOrEqual(2)
+})
+
+test('sirve cada imagen como AVIF con respaldo WebP', () => {
+  render(<App />)
+
+  visualLanguage.figures.forEach((figura) => {
+    const img = screen.getByRole('img', { name: figura.alt })
+    const picture = img.closest('picture')
+    const avif = picture?.querySelector('source[type="image/avif"]')
+    const webp = picture?.querySelector('source[type="image/webp"]')
+
+    expect(avif?.getAttribute('srcset')).toContain(`/images/${figura.image}.avif`)
+    expect(avif?.getAttribute('srcset')).toContain(`/images/${figura.image}-640.avif`)
+    expect(webp?.getAttribute('srcset')).toContain(`/images/${figura.image}.webp`)
+    expect(avif).toHaveAttribute('sizes')
   })
 })
 
-test('renders project images inside a responsive 4:3 crop frame', () => {
+test('abre y cierra el visor con teclado y devuelve el foco al disparador', async () => {
+  const user = userEvent.setup()
   render(<App />)
 
-  projects.forEach((project) => {
-    const image = screen.getByRole('img', { name: project.alt })
+  const [primera, segunda] = visualLanguage.figures
+  const disparador = screen.getByRole('button', { name: `Ampliar imagen: ${primera.alt}` })
 
-    expect(image).toHaveClass('project-image')
-    expect(image).not.toHaveAttribute('height')
-    expect(image.closest('picture')).toHaveClass('project-image-frame')
+  await user.click(disparador)
+  const dialogo = screen.getByRole('dialog')
+  expect(dialogo).toHaveAttribute('aria-modal', 'true')
+  expect(within(dialogo).getByRole('button', { name: /cerrar el visor/i })).toHaveFocus()
+
+  await user.keyboard('{ArrowRight}')
+  expect(screen.getByRole('dialog')).toHaveAccessibleName(
+    `Imagen 2 de ${visualLanguage.figures.length}`,
+  )
+
+  await user.keyboard('{Escape}')
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+
+  // El foco vuelve a la imagen que se estaba viendo, no a la que abrió el visor.
+  // Si navegaste hasta la segunda, quedarte en la primera te haría perder el lugar
+  // en la retícula. Es lo que hace cualquier visor de fotos.
+  expect(screen.getByRole('button', { name: `Ampliar imagen: ${segunda.alt}` })).toHaveFocus()
+})
+
+test('el botón flotante de WhatsApp lleva etiqueta explícita y mensaje precargado', () => {
+  render(<App />)
+  const boton = screen.getByRole('link', { name: contact.whatsappLabel })
+
+  expect(boton).toHaveClass('floating-whatsapp')
+  expect(boton).toHaveAttribute('href', contact.whatsappUrl)
+  expect(boton).toHaveAttribute('target', '_blank')
+})
+
+test('abre WhatsApp e Instagram en pestaña nueva', () => {
+  render(<App />)
+
+  const externos = [
+    ...screen.getAllByRole('link', { name: /whatsapp/i }),
+    ...screen.getAllByRole('link', { name: /instagram|proceso en instagram/i }),
+  ]
+  externos.forEach((enlace) => {
+    expect(enlace).toHaveAttribute('target', '_blank')
+    expect(enlace).toHaveAttribute('rel', 'noreferrer')
   })
 })
 
-test('opens WhatsApp and Instagram in a new tab', () => {
-  render(<App />)
-  const whatsappLinks = screen.getAllByRole('link', { name: /whatsapp/i })
-  const instagramLinks = screen.getAllByRole('link', { name: /instagram/i })
-
-  whatsappLinks.forEach((whatsappLink) => {
-    expect(whatsappLink).toHaveAttribute('target', '_blank')
-    expect(whatsappLink).toHaveAttribute('rel', 'noreferrer')
-  })
-  instagramLinks.forEach((instagramLink) => {
-    expect(instagramLink).toHaveAttribute('target', '_blank')
-    expect(instagramLink).toHaveAttribute('rel', 'noreferrer')
-  })
-})
-
-test('provides a contact form and footer alternatives', () => {
+test('ofrece formulario y alternativas en el pie', () => {
   render(<App />)
 
   expect(screen.getByRole('form', { name: /envíanos tu consulta/i })).toBeInTheDocument()
 
-  const footer = screen.getByRole('contentinfo')
-  expect(within(footer).getByRole('link', { name: /whatsapp/i })).toHaveAttribute(
+  const pie = screen.getByRole('contentinfo')
+  expect(within(pie).getByRole('link', { name: /whatsapp/i })).toHaveAttribute(
     'href',
     contact.whatsappUrl,
   )
-  expect(within(footer).getByRole('link', { name: /correo/i })).toHaveAttribute(
+  expect(within(pie).getByRole('link', { name: /correo/i })).toHaveAttribute(
     'href',
     `mailto:${contact.email}`,
   )
-  expect(within(footer).getByRole('link', { name: /instagram/i })).toHaveAttribute(
-    'href',
-    contact.instagramUrl,
-  )
-  expect(within(footer).getByRole('link', { name: /aviso de privacidad/i })).toHaveAttribute(
+  expect(within(pie).getByRole('link', { name: /aviso de privacidad/i })).toHaveAttribute(
     'href',
     '/aviso-de-privacidad.html',
   )
