@@ -29,6 +29,17 @@ De ahí salen tres reglas que el código ya aplica y que no deben revertirse:
 
 `tests/content-and-readme.test.ts` verifica las tres.
 
+## Retícula de la galería
+
+Nueve imágenes en filas de tres, todas cuadradas y del mismo tamaño, por decisión
+expresa de la clienta. Se probó una retícula editorial de pesos alternados y arcos en
+las verticales; se descartó por falta de uniformidad. `Figure.weight` sigue en el
+contenido porque describe la imagen, pero ya no altera la forma en pantalla.
+
+El número de imágenes debe ser múltiplo de tres o la última fila queda coja. En móvil
+la retícula baja a dos columnas y ahí sí queda una celda sola: a 375 px, tres columnas
+darían miniaturas de ~101 px, demasiado chicas para fotografía de interiores.
+
 Si la clienta entrega fotografía de obra terminada, se puede reencuadrar la sección como portafolio — pero es una decisión de contenido, no un ajuste de estilo.
 
 ## Estado de los assets
@@ -39,12 +50,15 @@ Origen: capturas entregadas por la clienta, ancho nativo 1179 px, recortadas y c
 
 Cada imagen vive en `public/images/` como cuatro archivos: `{nombre}.avif`, `{nombre}.webp`, `{nombre}-640.avif`, `{nombre}-640.webp`. `src/components/Picture.tsx` arma el `srcset` a partir de `width`/`height` declarados en `src/content/site.ts`.
 
-**Provisionales por resolución insuficiente** — reemplazar cuando haya original:
+**Provisional por resolución insuficiente** — reemplazar cuando haya original:
 
 | Imagen | Motivo |
 | --- | --- |
-| `lenguaje-bano-salvia` | La menos nítida del lote junto con la siguiente |
 | `lenguaje-recamara-estudio` | Nitidez baja; se conserva por ser la única recámara |
+
+`lenguaje-bano-salvia` sale de la galería: era la otra de nitidez baja y la retícula
+uniforme pide un múltiplo de tres. Sus cuatro archivos siguen en `public/images/` por
+si se recupera un original mejor. Están en `../instagram/seleccion/13-detalle-vertical.jpg`.
 
 El resto es utilizable a los tamaños de presentación actuales, pero ninguna supera 1165 px de ancho: el hero va justo en pantallas de 1440 px o más. Pedir originales a la clienta para el hero.
 
@@ -68,9 +82,9 @@ El swash del sitio (`src/components/Swash.tsx`) **no** es una copia del vector d
 
 ### Retrato de Alejandra
 
-Entregado por la clienta. El original es horizontal (1080×854); se recortó a 3:4 centrado, que conserva el monograma del muro y la deja a ella en el eje, y se exportó como `estudio-alejandra`.
+Entregado por la clienta. El original es horizontal (1080×854); se recortó a 1:1 centrado, que conserva el monograma del muro y la deja a ella en el eje, y se exportó como `estudio-alejandra`.
 
-Mide 640 px de ancho, así que `.studio-portrait` lleva `max-width: 30rem`: sin ese tope, en tablet y móvil la sección lo estira a todo el ancho y lo escala hacia arriba. Si llega un original de mayor resolución, se puede levantar el tope.
+Mide 854 px de lado, así que `.studio-portrait` lleva `max-width: 30rem`: sin ese tope, en tablet y móvil la sección lo estira a todo el ancho y lo escala hacia arriba. Si llega un original de mayor resolución, se puede levantar el tope.
 
 ## Formspree
 

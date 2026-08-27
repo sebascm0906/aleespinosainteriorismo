@@ -218,13 +218,6 @@ export const visualLanguage = {
       weight: 'ancha',
     },
     {
-      image: 'lenguaje-bano-salvia',
-      alt: 'Medio baño con panel ranurado en verde salvia, espejo ovalado retroiluminado y grifería dorada.',
-      width: 984,
-      height: 1264,
-      weight: 'alta',
-    },
-    {
       image: 'lenguaje-cafe-barra',
       alt: 'Barra de cafetería en madera clara con vitrina de repostería, luminarias colgantes y área de mesas.',
       width: 1165,
@@ -250,7 +243,7 @@ export const visualLanguage = {
 }
 
 export const transformation = {
-  eyebrow: 'Antes y propuesta',
+  eyebrow: 'Antes y después',
   title: 'De lo que hay a lo que puede ser',
   description:
     'La imagen de la izquierda es la fotografía del estado original del departamento. La de la derecha es la propuesta del estudio para ese mismo espacio.',
@@ -284,15 +277,15 @@ export const studio = {
   ],
   /**
    * Retrato entregado por la clienta. El original es horizontal (1080x854); se
-   * recortó a 3:4 centrado, que conserva el monograma del muro y la deja a ella
-   * en el eje. La sección lo presenta con remate de arco.
+   * recortó a 1:1 centrado, que conserva el monograma del muro y la deja a ella
+   * en el eje.
    */
   portrait: {
     image: 'estudio-alejandra',
     alt: 'Alejandra Espinosa en su escritorio, revisando un plano, bajo el monograma AE del muro del estudio.',
-    width: 640,
+    width: 854,
     height: 854,
-    weight: 'alta',
+    weight: 'normal',
   } as Figure | null,
   instagramLabel: 'Ver el proceso en Instagram',
 }

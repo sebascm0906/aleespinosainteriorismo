@@ -77,6 +77,10 @@ export default function App() {
           <VisualLanguage />
         </section>
 
+        <div className="divisor">
+          <Swash />
+        </div>
+
         <section
           className="editorial-section shell"
           id="transformacion"
