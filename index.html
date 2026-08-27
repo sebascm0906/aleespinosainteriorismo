@@ -1,9 +1,65 @@
 <!doctype html>
-<html lang="en">
+<html lang="es-MX">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ale Espinosa INTERIORISMO</title>
+    <meta name="theme-color" content="#14120e" />
+
+    <title>Alejandra Espinosa Interiorismo | Diseño de interiores residencial y comercial</title>
+    <meta
+      name="description"
+      content="Estudio de interiorismo residencial, comercial y corporativo. Proyectos únicos y atemporales, del concepto a los acabados."
+    />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:site_name" content="Alejandra Espinosa Interiorismo" />
+    <meta
+      property="og:title"
+      content="Alejandra Espinosa Interiorismo | Diseño de interiores residencial y comercial"
+    />
+    <meta
+      property="og:description"
+      content="Estudio de interiorismo residencial, comercial y corporativo. Proyectos únicos y atemporales, del concepto a los acabados."
+    />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <!-- og:image debe ser absoluta: los rastreadores de WhatsApp, Facebook y X no
+         resuelven rutas relativas y la vista previa sale sin imagen. VITE_SITE_URL
+         se sustituye en build; sin ella la previsualización queda rota. -->
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Monograma AE de Alejandra Espinosa Interiorismo" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Instrument+Sans:wght@400;500;600&display=swap"
+    />
+
+    <!--
+      JSON-LD deliberadamente sin `address` ni `telephone` verificados por la clienta.
+      No se inventan datos: al confirmarlos, añadir `address`, `telephone` y `geo`.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Alejandra Espinosa Interiorismo",
+        "description": "Estudio de interiorismo residencial, comercial y corporativo.",
+        "image": "%VITE_SITE_URL%/og-image.png",
+        "url": "%VITE_SITE_URL%/",
+        "areaServed": "MX",
+        "knowsLanguage": "es-MX",
+        "sameAs": ["https://www.instagram.com/alejandraespinosainteriorismo/"]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,18 +1,28 @@
-import { Instagram, Mail, MessageCircle } from 'lucide-react'
+import { Instagram, Mail } from 'lucide-react'
 import { contact } from '../content/site'
+import WhatsAppIcon from './WhatsAppIcon'
 
 export default function ContactChannels() {
   return (
-    <nav aria-label="Canales de contacto" className="contact-channels">
-      <a className="contact-icon-link" href={contact.whatsappUrl} target="_blank" rel="noreferrer" aria-label="WhatsApp" title="WhatsApp">
-        <MessageCircle aria-hidden="true" />
-      </a>
-      <a className="contact-icon-link" href={`mailto:${contact.email}`} aria-label="Correo electrónico" title="Correo electrónico">
-        <Mail aria-hidden="true" />
-      </a>
-      <a className="contact-icon-link" href={contact.instagramUrl} target="_blank" rel="noreferrer" aria-label="Instagram" title="Instagram">
-        <Instagram aria-hidden="true" />
-      </a>
-    </nav>
+    <ul className="contact-channels">
+      <li>
+        <a href={contact.whatsappUrl} target="_blank" rel="noreferrer">
+          <WhatsAppIcon />
+          <span>WhatsApp</span>
+        </a>
+      </li>
+      <li>
+        <a href={`mailto:${contact.email}`}>
+          <Mail aria-hidden="true" />
+          <span>{contact.email}</span>
+        </a>
+      </li>
+      <li>
+        <a href={contact.instagramUrl} target="_blank" rel="noreferrer">
+          <Instagram aria-hidden="true" />
+          <span>{contact.instagramHandle}</span>
+        </a>
+      </li>
+    </ul>
   )
 }

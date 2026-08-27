@@ -1,17 +1,29 @@
-export interface Project {
-  title: string
-  category: string
+/**
+ * Contenido del sitio. Todo el texto visible vive aquí.
+ *
+ * Estructura pensada para sumar inglés después: este archivo es el contenido `es-MX`
+ * y su forma es la que replicaría un `site.en.ts`. Los identificadores, rutas de
+ * imagen y datos de contacto son compartidos y no se traducen.
+ *
+ * IMPORTANTE — las imágenes de `visualLanguage` son renders conceptuales que expresan
+ * el estilo del estudio, no fotografía de obra ejecutada. El texto nunca debe
+ * presentarlas como proyectos terminados. Ver `visualLanguage.disclosure`.
+ */
+
+export const locale = 'es-MX'
+
+export interface Figure {
+  /** Nombre base en /images, sin extensión ni sufijo de ancho. */
   image: string
   alt: string
+  /** Dimensiones reales del archivo nativo: reservan el espacio y arman el srcset. */
+  width: number
+  height: number
+  /** Peso en la retícula editorial. */
+  weight: 'ancha' | 'alta' | 'normal'
 }
 
 export interface Service {
-  title: string
-  description: string
-}
-
-export interface ProcessStep {
-  number: string
   title: string
   description: string
 }
@@ -31,151 +43,265 @@ export interface SectionContent {
 }
 
 export const brand = {
-  name: 'Ale Espinosa INTERIORISMO',
+  name: 'Alejandra Espinosa',
+  discipline: 'Interiorismo',
+  fullName: 'Alejandra Espinosa Interiorismo',
   logo: {
-    src: '/images/brand/ale-espinosa-logo.png',
-    alt: 'Logo de Ale Espinosa INTERIORISMO',
+    /** Versión clara: el sitio es de fondo tinta. */
+    src: '/images/brand/logo-ae-claro.png',
+    monogram: '/images/brand/monograma-ae-claro.png',
+    alt: 'Alejandra Espinosa Interiorismo',
   },
   homeHref: '#inicio',
-  homeLabel: 'Ale Espinosa INTERIORISMO, inicio',
+  homeLabel: 'Alejandra Espinosa Interiorismo, ir al inicio',
 }
 
+const whatsappNumber = '525591889761'
+const whatsappMessage = 'Hola, me interesa un proyecto de interiorismo.'
+
 export const contact = {
-  whatsappUrl:
-    'https://wa.me/52XXXXXXXXXX?text=Hola%20Ale%2C%20me%20gustar%C3%ADa%20solicitar%20una%20asesor%C3%ADa.',
+  whatsappNumber,
+  whatsappMessage,
+  whatsappUrl: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
+  whatsappLabel: 'Escribir por WhatsApp',
   instagramUrl: 'https://www.instagram.com/alejandraespinosainteriorismo/',
+  instagramHandle: '@alejandraespinosainteriorismo',
+  /** PENDIENTE: correo por confirmar con la clienta antes de publicar. */
   email: 'pendiente@aleespinosa.mx',
 }
 
 export const navigation: NavigationItem[] = [
-  { href: '#proyectos', label: 'Proyectos' },
+  { href: '#enfoque', label: 'Enfoque' },
   { href: '#servicios', label: 'Servicios' },
-  { href: '#proceso', label: 'Proceso' },
+  { href: '#lenguaje', label: 'Lenguaje' },
+  { href: '#estudio', label: 'Estudio' },
   { href: '#contacto', label: 'Contacto' },
-  { href: contact.instagramUrl, label: 'Instagram', isExternal: true },
-]
-
-export const services: Service[] = [
-  {
-    title: 'Interiorismo residencial',
-    description: 'Espacios funcionales que se sienten tuyos.',
-  },
-  {
-    title: 'Asesoría personalizada',
-    description: 'Decisiones claras para transformar tu espacio.',
-  },
-  {
-    title: 'Ejecución y acabados',
-    description: 'Acompañamiento atento de la idea a los detalles.',
-  },
 ]
 
 export const hero = {
-  image: '/images/hero-sala-01.webp',
-  alt: 'Sala residencial de Ale Espinosa INTERIORISMO con madera, piedra y luz natural.',
-  eyebrow: 'Diseño con amor',
-  proposition: 'Espacios serenos y personales, diseñados para vivirlos todos los días.',
+  eyebrow: 'Interiorismo',
+  /** El h1 accesible; en pantalla se ve el monograma. */
+  title: 'Alejandra Espinosa Interiorismo',
+  proposition: 'Más que interiores, creamos espacios que representan una forma de vivir.',
+  figure: {
+    image: 'hero-sala-listones',
+    alt: 'Sala de estar con muro de listones de madera, iluminación lineal cálida oculta y textiles en verde olivo.',
+    width: 1165,
+    height: 826,
+    weight: 'ancha',
+  } satisfies Figure,
   actions: {
-    whatsapp: {
-      href: contact.whatsappUrl,
-      label: 'WhatsApp',
-    },
-    projects: {
-      href: '#proyectos',
-      label: 'Ver proyectos',
-      accessibleLabel: 'Ver el portafolio',
-    },
+    primary: { href: '#lenguaje', label: 'Ver el lenguaje' },
+    secondary: { href: '#contacto', label: 'Hablemos de tu espacio' },
   },
 }
 
-export const brandStory = {
-  title: 'Sobre Ale',
-  description:
-    'Ale Espinosa entiende el interiorismo como una forma de acompañar la vida cotidiana. Su mirada parte de escuchar a quienes habitan cada espacio para traducir sus rutinas, recuerdos y aspiraciones en ambientes que se sienten propios. A través de la luz, las texturas, los materiales y los objetos, busca construir interiores cálidos, serenos y funcionales, donde cada detalle suma a una experiencia de hogar más personal.',
-  instagramLabel: 'Sigue el proceso en Instagram',
+export const philosophy = {
+  body: [
+    'No trabajamos con fórmulas repetidas. Cada proyecto parte de cómo vives, cómo trabajas o cómo quieres que te reciban.',
+    'De ahí salen decisiones concretas: la temperatura de la luz, la veta de una madera, el punto exacto donde termina un muro.',
+    'Acompañamos el proceso completo, del concepto a los acabados. El resultado busca ser atemporal, no la tendencia de este año.',
+  ],
 }
 
-export const sections: Record<'projects' | 'services' | 'process' | 'contact', SectionContent> = {
-  projects: {
-    id: 'proyectos',
-    headingId: 'projects-title',
-    eyebrow: 'Portafolio',
-    title: 'Proyectos seleccionados',
-    description: 'Una selección de espacios pensados con atención a la materia, la luz y la vida cotidiana.',
+export const sections: Record<
+  'philosophy' | 'services' | 'language' | 'studio' | 'contact',
+  SectionContent
+> = {
+  philosophy: {
+    id: 'enfoque',
+    headingId: 'philosophy-title',
+    eyebrow: 'Enfoque',
+    title: 'Cada espacio empieza por una pregunta distinta',
   },
   services: {
     id: 'servicios',
     headingId: 'services-title',
-    eyebrow: 'Acompañamiento',
-    title: 'Servicios',
+    eyebrow: 'Servicios',
+    title: 'En qué acompañamos',
   },
-  process: {
-    id: 'proceso',
-    headingId: 'process-title',
-    eyebrow: 'El camino',
-    title: 'Proceso',
+  language: {
+    id: 'lenguaje',
+    headingId: 'language-title',
+    eyebrow: 'Dirección visual',
+    title: 'El lenguaje de un espacio',
+    description:
+      'Materiales cálidos, luz oculta y una paleta que no compite con quien habita el lugar.',
+  },
+  studio: {
+    id: 'estudio',
+    headingId: 'studio-title',
+    eyebrow: 'El estudio',
+    title: 'Alejandra Espinosa',
   },
   contact: {
     id: 'contacto',
     headingId: 'contact-title',
-    eyebrow: 'Hablemos',
-    title: 'Contacto',
+    eyebrow: 'Contacto',
+    title: 'Cuéntanos de tu espacio',
   },
 }
 
-export const processSteps: ProcessStep[] = [
+export const services: Service[] = [
   {
-    number: '01',
-    title: 'Conocer',
-    description: 'Escuchamos cómo quieres vivir tu espacio.',
+    title: 'Interiorismo residencial',
+    description:
+      'Casas y departamentos pensados desde la rutina de quien los habita, no desde un catálogo.',
   },
   {
-    number: '02',
-    title: 'Diseñar',
-    description: 'Convertimos tus ideas en una propuesta integral.',
+    title: 'Comercial y corporativo',
+    description:
+      'Locales, cafeterías y oficinas donde el espacio trabaja a favor de la marca y de quien la opera.',
   },
   {
-    number: '03',
-    title: 'Habitar',
-    description: 'Cuidamos los detalles para que disfrutes el resultado.',
+    title: 'Proyecto integral',
+    description:
+      'Del concepto a los acabados: distribución, materiales, iluminación, mobiliario y seguimiento en obra.',
   },
 ]
 
-export const projects: Project[] = [
-  {
-    title: 'Sala de piedra',
-    category: 'Residencial',
-    image: '/images/proyecto-sala-01.webp',
-    alt: 'Sala residencial con muro de piedra, textiles neutros y luz natural.',
+export const visualLanguage = {
+  /** Aviso obligatorio: son renders conceptuales, no obra ejecutada. */
+  disclosure: 'Imágenes conceptuales que expresan el lenguaje del estudio.',
+  figures: [
+    {
+      image: 'lenguaje-terraza-pergola',
+      alt: 'Terraza cubierta con pérgola de madera, jardineras iluminadas y sala exterior al anochecer.',
+      width: 1005,
+      height: 1264,
+      weight: 'alta',
+    },
+    {
+      image: 'lenguaje-cafe-banca',
+      alt: 'Interior de cafetería con banca tapizada en verde olivo, mesas de mármol y patio ajardinado al fondo.',
+      width: 1165,
+      height: 881,
+      weight: 'ancha',
+    },
+    {
+      image: 'lenguaje-sala-arena',
+      alt: 'Sala en tonos arena con panel de nogal, olivo en maceta de barro y mesa de centro de madera maciza.',
+      width: 1165,
+      height: 1150,
+      weight: 'normal',
+    },
+    {
+      image: 'lenguaje-estar-vinos',
+      alt: 'Rincón de estar con dos sillones negros de estructura metálica y muro de vinos retroiluminado.',
+      width: 967,
+      height: 1264,
+      weight: 'alta',
+    },
+    {
+      image: 'lenguaje-despacho-marmol',
+      alt: 'Despacho privado con muro de mármol veteado, libreros iluminados y escritorio de nogal.',
+      width: 1165,
+      height: 852,
+      weight: 'ancha',
+    },
+    {
+      image: 'lenguaje-cafe-fachada',
+      alt: 'Fachada nocturna de cafetería con letrero retroiluminado y barra de madera ranurada tras el cristal.',
+      width: 954,
+      height: 1195,
+      weight: 'alta',
+    },
+    {
+      image: 'lenguaje-estudio-nogal',
+      alt: 'Estudio en casa con escritorio en L de nogal, repisas flotantes con iluminación oculta y silla de piel.',
+      width: 1165,
+      height: 802,
+      weight: 'ancha',
+    },
+    {
+      image: 'lenguaje-bano-salvia',
+      alt: 'Medio baño con panel ranurado en verde salvia, espejo ovalado retroiluminado y grifería dorada.',
+      width: 984,
+      height: 1264,
+      weight: 'alta',
+    },
+    {
+      image: 'lenguaje-cafe-barra',
+      alt: 'Barra de cafetería en madera clara con vitrina de repostería, luminarias colgantes y área de mesas.',
+      width: 1165,
+      height: 851,
+      weight: 'ancha',
+    },
+    {
+      image: 'lenguaje-recamara-estudio',
+      alt: 'Recámara tipo estudio con cabecera de madera, comedor integrado y luz cálida empotrada.',
+      width: 1165,
+      height: 1157,
+      weight: 'normal',
+    },
+  ] satisfies Figure[],
+  /** Imagen de respiro a sangre completa entre bloques. */
+  fullBleed: {
+    image: 'lenguaje-comedor-espejo',
+    alt: 'Comedor de madera para ocho con espejo circular dorado y nichos iluminados sobre muro texturizado.',
+    width: 1165,
+    height: 823,
+    weight: 'ancha',
+  } satisfies Figure,
+}
+
+export const transformation = {
+  eyebrow: 'Antes y propuesta',
+  title: 'De lo que hay a lo que puede ser',
+  description:
+    'La imagen de la izquierda es la fotografía del estado original del departamento. La de la derecha es la propuesta del estudio para ese mismo espacio.',
+  before: {
+    figure: {
+      image: 'transformacion-antes',
+      alt: 'Estado original del departamento: sala sin intervenir, cortinas antiguas, piso desgastado y mobiliario disperso.',
+      width: 1165,
+      height: 1040,
+      weight: 'normal',
+    } satisfies Figure,
+    label: 'Antes',
   },
-  {
-    title: 'Comedor sereno',
-    category: 'Residencial',
-    image: '/images/proyecto-comedor-01.webp',
-    alt: 'Comedor residencial con mesa de madera, lámpara escultórica y vegetación.',
+  after: {
+    figure: {
+      image: 'transformacion-propuesta',
+      alt: 'Propuesta para el mismo departamento: sala, comedor y área de trabajo integrados, con cortinas de lino y luz natural.',
+      width: 1165,
+      height: 1040,
+      weight: 'normal',
+    } satisfies Figure,
+    label: 'Propuesta',
   },
-  {
-    title: 'Recámara cálida',
-    category: 'Recámara principal',
-    image: '/images/proyecto-recamara-01.webp',
-    alt: 'Recámara principal con cabecera textil, madera clara y luz suave.',
-  },
-  {
-    title: 'Cocina habitable',
-    category: 'Cocina',
-    image: '/images/proyecto-cocina-01.webp',
-    alt: 'Cocina contemporánea con isla de piedra, carpintería de madera y bancos.',
-  },
-  {
-    title: 'Baño de descanso',
-    category: 'Baño',
-    image: '/images/proyecto-bano-01.webp',
-    alt: 'Baño residencial con piedra natural, grifería metálica y luz indirecta.',
-  },
-  {
-    title: 'Detalles con historia',
-    category: 'Styling',
-    image: '/images/proyecto-detalle-01.webp',
-    alt: 'Detalle de interiorismo con objetos artesanales, madera y textiles mexicanos.',
-  },
-]
+}
+
+export const studio = {
+  body: [
+    'Alejandra Espinosa dirige el estudio y acompaña cada proyecto de principio a fin.',
+    'Su trabajo parte de escuchar: cómo se usa el espacio hoy, qué estorba y qué vale la pena conservar. A partir de ahí traduce esas rutinas en luz, materiales y proporciones.',
+    'Trabaja proyectos residenciales, comerciales y corporativos, con el mismo criterio en todos: que el espacio se sienta propio y siga funcionando dentro de diez años.',
+  ],
+  /**
+   * PENDIENTE — retrato de Alejandra. El archivo aún no está en disco.
+   * Al recibirlo: exportar como `estudio-alejandra` (AVIF + WebP, ancho 640 y nativo)
+   * y llenar este objeto. Mientras sea null, la sección se compone sin imagen.
+   */
+  portrait: null as Figure | null,
+  instagramLabel: 'Ver el proceso en Instagram',
+}
+
+export const contactCopy = {
+  intro: 'Escríbenos por WhatsApp o déjanos tus datos. Respondemos el mismo día hábil.',
+  formTitle: 'Formulario de contacto',
+}
+
+export const footer = {
+  privacyHref: '/aviso-de-privacidad.html',
+  privacyLabel: 'Aviso de privacidad',
+  copyright: `© ${new Date().getFullYear()} Alejandra Espinosa Interiorismo`,
+  credit: 'Imágenes conceptuales propiedad del estudio.',
+}
+
+export const seo = {
+  title: 'Alejandra Espinosa Interiorismo | Diseño de interiores residencial y comercial',
+  description:
+    'Estudio de interiorismo residencial, comercial y corporativo. Proyectos únicos y atemporales, del concepto a los acabados.',
+  ogImage: '/og-image.png',
+}
