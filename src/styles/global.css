@@ -419,6 +419,24 @@ main[id] {
 
 /* ---------- Enfoque ---------- */
 
+/* Ocupa la columna que quedaba vacía a la izquierda del cuerpo. Es el único
+   elemento del sitio con esquinas redondeadas: la retícula es toda cuadrada, así
+   que el redondeo lo lee como acento y no como estilo general.
+   El tope de ancho evita escalar el archivo nativo de 680 px hacia arriba cuando
+   la sección colapsa a una columna. */
+.philosophy-figure {
+  grid-column: 2 / span 3;
+  align-self: start;
+  max-width: 26rem;
+  margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
+}
+
+.philosophy-figure img {
+  width: 100%;
+  border: 1px solid var(--borde);
+  border-radius: 1.25rem;
+}
+
 .philosophy-body {
   grid-column: 5 / span 7;
   margin-top: clamp(1.5rem, 3vw, 2.5rem);
@@ -874,6 +892,7 @@ main[id] {
 
 @media (max-width: 1023px) {
   .section-heading,
+  .philosophy-figure,
   .philosophy-body,
   .studio-body,
   .contact-copy,

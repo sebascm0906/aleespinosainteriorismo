@@ -98,6 +98,19 @@ export const hero = {
 }
 
 export const philosophy = {
+  /**
+   * Acento de la columna izquierda. Se eligió entre dos opciones de la clienta:
+   * el dorado de las hojas es lo único de ambas que enlaza con el latón del
+   * logotipo. El recorte corta en la junta de concreto, antes del respaldo del
+   * sofá, para dejar fuera el cojín de cuadros, que es lo que peleaba con la paleta.
+   */
+  figure: {
+    image: 'enfoque-obra',
+    alt: 'Dos obras enmarcadas de hojas de palma en verde y dorado sobre un muro de concreto aparente, con luz dirigida desde el techo.',
+    width: 680,
+    height: 612,
+    weight: 'normal',
+  } satisfies Figure,
   body: [
     'No trabajamos con fórmulas repetidas. Cada proyecto parte de cómo vives, cómo trabajas o cómo quieres que te reciban.',
     'De ahí salen decisiones concretas: la temperatura de la luz, la veta de una madera, el punto exacto donde termina un muro.',

@@ -29,6 +29,18 @@ De ahí salen tres reglas que el código ya aplica y que no deben revertirse:
 
 `tests/content-and-readme.test.ts` verifica las tres.
 
+## Acento del enfoque
+
+`enfoque-obra` es el único elemento del sitio con esquinas redondeadas (20 px) y
+ocupa la columna que quedaba vacía a la izquierda del cuerpo. Justo porque la
+retícula es toda cuadrada, el redondeo se lee como acento y no como estilo general.
+
+Se eligió entre dos imágenes que propuso la clienta. Ganó por el dorado de las hojas,
+lo único de ambas que enlaza con el latón del logotipo; la otra, una terraza, tenía una
+persiana clara ocupando media toma que sobre fondo tinta quedaba como un bloque en
+blanco. El recorte corta en la junta de concreto antes del respaldo del sofá para dejar
+fuera el cojín de cuadros blanco y negro, que era lo que peleaba con la paleta.
+
 ## Retícula de la galería
 
 Nueve imágenes en filas de tres, todas cuadradas y del mismo tamaño, por decisión

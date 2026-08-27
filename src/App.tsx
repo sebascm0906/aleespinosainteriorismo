@@ -35,6 +35,13 @@ export default function App() {
             eyebrow={sections.philosophy.eyebrow}
             title={sections.philosophy.title}
           />
+          <figure className="philosophy-figure">
+            <Picture
+              figure={philosophy.figure}
+              sizes="(max-width: 1023px) 90vw, 22vw"
+            />
+          </figure>
+
           <div className="philosophy-body">
             {philosophy.body.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
