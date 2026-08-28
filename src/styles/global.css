@@ -762,15 +762,25 @@ main[id] {
 
 /* El archivo nativo mide 854 px de lado. Sin este tope, en tablet y móvil la
    sección lo estira a todo el ancho y se escala hacia arriba: se ve blando. */
-/* Justificado a petición de la clienta, sólo en la biografía y sólo desde 768px.
-   Medido: en la columna ancha los renglones van de 68 a 79 caracteres, 15% de
-   variación, y el justificado se ve parejo. En móvil la columna cae a 34-47
-   caracteres, 32% de variación: ahí los espacios se estiran al doble en unos
-   renglones y sí produce ríos, que es peor que el borde derecho irregular.
+/* Justificado en todo el texto corrido, nunca en títulos ni en versalitas: un
+   título justificado abre huecos enormes entre palabras porque son pocas y
+   grandes.
+
+   Sólo desde 768px. Medido a 1440px, los renglones completos van de 85 a 87
+   caracteres en filosofía, 43 a 50 en servicios y 68 a 79 en la biografía: entre
+   0 y 15% de variación, y el justificado se ve parejo. En móvil las columnas caen
+   a 34-47 caracteres con 32% de variación, y ahí los espacios se estiran al doble
+   en algunos renglones: eso sí produce ríos, peor que el borde irregular.
+
    `hyphens: auto` reparte mejor; el html declara lang="es-MX", de donde el
    navegador toma las reglas de partición. */
 @media (min-width: 768px) {
-  .studio-body p:not(.studio-role) {
+  .philosophy-body p,
+  .studio-body p:not(.studio-role),
+  .services-list p,
+  .contact-copy p,
+  .section-heading > p:not(.eyebrow),
+  .disclosure {
     text-align: justify;
     hyphens: auto;
   }
@@ -897,35 +907,48 @@ main[id] {
 
 /* ---------- Pie ---------- */
 
+/* Pie de altura estándar. Antes medía 323px: el logotipo iba a 126px de alto y
+   los dos textos legales colgaban debajo. Ahora el logotipo es más chico y los
+   textos van a su costado, no debajo. */
 .site-footer {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--canal);
-  row-gap: 1.5rem;
+  row-gap: 1.25rem;
   align-items: center;
-  padding: clamp(2.5rem, 5vw, 4rem) var(--margen);
+  padding: clamp(1.75rem, 3vw, 2.5rem) var(--margen);
   border-top: 1px solid var(--borde);
 }
 
 .footer-brand {
-  grid-column: span 5;
+  grid-column: span 6;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2vw, 1.5rem);
 }
 
 /* El logotipo completo lleva "INTERIORISMO" en versalitas: fijar por altura lo
-   dejaba en 51 px de ancho e ilegible. Se dimensiona por ancho. */
+   dejaba ilegible. Se dimensiona por ancho. */
 .footer-brand img {
-  width: clamp(7.5rem, 14vw, 10.5rem);
+  flex: 0 0 auto;
+  width: clamp(4.5rem, 8vw, 6.5rem);
   height: auto;
 }
 
+.footer-legal {
+  display: grid;
+  gap: 0.15rem;
+}
+
 .footer-brand p {
-  margin-top: 0.75rem;
+  margin: 0;
   color: var(--texto-suave);
   font-size: var(--paso--1);
+  line-height: 1.45;
 }
 
 .site-footer nav {
-  grid-column: 7 / -1;
+  grid-column: 8 / -1;
 }
 
 .footer-links {
