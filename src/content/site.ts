@@ -67,8 +67,8 @@ export const contact = {
   whatsappLabel: 'Escribir por WhatsApp',
   instagramUrl: 'https://www.instagram.com/alejandraespinosainteriorismo/',
   instagramHandle: '@alejandraespinosainteriorismo',
-  /** PENDIENTE: correo por confirmar con la clienta antes de publicar. */
-  email: 'pendiente@aleespinosa.mx',
+  /** Correo de la clienta, el mismo que declara como responsable en el aviso de privacidad. */
+  email: 'Aleespinosainteriorismo@outlook.com',
 }
 
 export const navigation: NavigationItem[] = [
