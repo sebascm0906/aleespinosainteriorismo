@@ -4,7 +4,8 @@ import { resolve } from 'node:path'
 import { describe, expect, test } from 'vitest'
 import { contact, hero, studio, transformation, visualLanguage } from '../src/content/site'
 
-const figuras = [hero.figure, visualLanguage.fullBleed, ...visualLanguage.figures,
+const figuras = [hero.figure, visualLanguage.fullBleed, visualLanguage.fillerDosColumnas,
+                 ...visualLanguage.figures,
                  ...transformation.cases.flatMap((c) => [c.before.figure, c.after.figure]),
                  ...(studio.portrait ? [studio.portrait] : [])]
 
@@ -50,10 +51,13 @@ describe('honestidad del contenido', () => {
     expect(visualLanguage.disclosure.trim().length).toBeGreaterThan(0)
   })
 
-  test('el caso de la terraza se rotula como propuesta, no como obra', () => {
-    // Su segunda imagen es un render. Rotularla "Después" afirmaría que se construyó.
-    const terraza = transformation.cases.find((c) => c.id === 'terraza')
-    expect(terraza?.after.label).toBe('Propuesta')
+  test('la galería declara la naturaleza de las imágenes', () => {
+    // Los cinco casos dicen "Después" por decisión de la clienta, incluido el de
+    // la terraza, cuya segunda imagen es un render. Con eso, el aviso de la
+    // galería es lo único que distingue concepto de obra construida: si alguien
+    // lo vacía, esta prueba lo detiene.
+    expect(visualLanguage.disclosure).toMatch(/concepto/i)
+    expect(visualLanguage.disclosure.trim().length).toBeGreaterThan(20)
   })
 
   test('no se afirman cifras, premios ni años de experiencia', () => {
