@@ -49,14 +49,57 @@ test('presenta la galería como lenguaje visual y no como obra terminada', () =>
   expect(within(region).queryByText(/proyectos seleccionados/i)).not.toBeInTheDocument()
 })
 
-test('rotula el par comparativo y mantiene el aviso de la galería', () => {
+test('la primera vista del carrusel conserva el par original', () => {
   render(<App />)
-  const region = screen.getByRole('region', { name: transformation.title })
+  const primera = transformation.cases[0]
+  const vista = screen.getByRole('group', { name: 'Caso 1 de ' + transformation.cases.length })
 
-  expect(within(region).getByText(transformation.before.label)).toBeInTheDocument()
-  expect(within(region).getByText(transformation.after.label)).toBeInTheDocument()
+  // Mismo par de imágenes y mismas etiquetas que antes de agregar el carrusel.
+  expect(within(vista).getByRole('img', { name: primera.before.figure.alt })).toBeInTheDocument()
+  expect(within(vista).getByRole('img', { name: primera.after.figure.alt })).toBeInTheDocument()
+  expect(within(vista).getByText(primera.before.label)).toBeInTheDocument()
+  expect(within(vista).getByText(primera.after.label)).toBeInTheDocument()
+})
 
-  // El aviso es lo que impide que la galería se lea como portafolio de obra.
+test('expone una vista por caso, con semántica de carrusel', () => {
+  render(<App />)
+  const carrusel = screen.getByRole('group', { name: transformation.title })
+  expect(carrusel).toHaveAttribute('aria-roledescription', 'carousel')
+
+  transformation.cases.forEach((_, i) => {
+    const vista = screen.getByRole('group', {
+      name: `Caso ${i + 1} de ${transformation.cases.length}`,
+    })
+    expect(vista).toHaveAttribute('aria-roledescription', 'slide')
+  })
+})
+
+test('los controles cambian de vista y se deshabilitan en los extremos', async () => {
+  const user = userEvent.setup()
+  render(<App />)
+
+  const anterior = screen.getByRole('button', { name: 'Caso anterior' })
+  const siguiente = screen.getByRole('button', { name: 'Caso siguiente' })
+  const punto = (i: number) =>
+    screen.getByRole('button', { name: `Ir al caso ${i} de ${transformation.cases.length}` })
+
+  expect(anterior).toBeDisabled()
+  expect(punto(1)).toHaveAttribute('aria-current', 'true')
+
+  await user.click(siguiente)
+  expect(punto(2)).toHaveAttribute('aria-current', 'true')
+  expect(anterior).toBeEnabled()
+
+  await user.click(anterior)
+  expect(punto(1)).toHaveAttribute('aria-current', 'true')
+
+  // Ir directo al último por su indicador deja deshabilitado el botón de avance.
+  await user.click(punto(transformation.cases.length))
+  expect(siguiente).toBeDisabled()
+})
+
+test('la galería conserva su aviso de imágenes conceptuales', () => {
+  render(<App />)
   const galeria = screen.getByRole('region', { name: sections.language.title })
   expect(within(galeria).getByText(visualLanguage.disclosure)).toBeInTheDocument()
 })
