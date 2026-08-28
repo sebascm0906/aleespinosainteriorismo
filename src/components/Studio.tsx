@@ -5,6 +5,9 @@ export default function Studio() {
   return (
     <>
       <div className="studio-body">
+        {/* Línea de rol, no párrafo: va con el tratamiento de versalitas del sitio. */}
+        <p className="eyebrow studio-role">{studio.role}</p>
+
         {studio.body.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}

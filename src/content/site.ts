@@ -190,7 +190,7 @@ export const visualLanguage = {
     },
     {
       image: 'lenguaje-cafe-banca',
-      alt: 'Interior de cafetería con banca tapizada en verde olivo, mesas de mármol y patio ajardinado al fondo.',
+      alt: 'Vista al patio con plantas y mesas al exterior',
       width: 1165,
       height: 881,
       weight: 'ancha',
@@ -255,38 +255,158 @@ export const visualLanguage = {
   } satisfies Figure,
 }
 
+export interface TransformationCase {
+  id: string
+  before: { figure: Figure; label: string }
+  after: { figure: Figure; label: string }
+}
+
+/**
+ * Casos antes/después del carrusel.
+ *
+ * La etiqueta del segundo panel depende de qué es la imagen, no del formato:
+ * "Después" sólo cuando es fotografía de obra terminada, "Propuesta" cuando es
+ * un render. Nunca se rotula un render como fotografía.
+ *
+ * Todas las imágenes se recortaron a la proporción 1165/1040 del caso original
+ * para que el carrusel no salte de alto entre vistas.
+ */
 export const transformation = {
   eyebrow: 'Antes y después',
   title: 'De lo que hay a lo que puede ser',
-  description:
-    'La imagen de la izquierda es la fotografía del estado original del departamento. La de la derecha es la propuesta del estudio para ese mismo espacio.',
-  before: {
-    figure: {
-      image: 'transformacion-antes',
-      alt: 'Estado original del departamento: sala sin intervenir, cortinas antiguas, piso desgastado y mobiliario disperso.',
-      width: 1165,
-      height: 1040,
-      weight: 'normal',
-    } satisfies Figure,
-    label: 'Antes',
-  },
-  after: {
-    figure: {
-      image: 'transformacion-propuesta',
-      alt: 'Propuesta para el mismo departamento: sala, comedor y área de trabajo integrados, con cortinas de lino y luz natural.',
-      width: 1165,
-      height: 1040,
-      weight: 'normal',
-    } satisfies Figure,
-    label: 'Después',
-  },
+  description: 'Cada caso muestra el estado original del espacio y el resultado del proyecto.',
+  cases: [
+    {
+      id: 'departamento',
+      before: {
+        figure: {
+          image: 'transformacion-antes',
+          alt: 'Estado original del departamento: sala sin intervenir, cortinas antiguas, piso desgastado y mobiliario disperso.',
+          width: 1165,
+          height: 1040,
+          weight: 'normal',
+        },
+        label: 'Antes',
+      },
+      after: {
+        figure: {
+          image: 'transformacion-propuesta',
+          alt: 'Propuesta para el mismo departamento: sala, comedor y área de trabajo integrados, con cortinas de lino y luz natural.',
+          width: 1165,
+          height: 1040,
+          weight: 'normal',
+        },
+        label: 'Después',
+      },
+    },
+    {
+      id: 'bano',
+      before: {
+        figure: {
+          image: 'transformacion-2-antes',
+          alt: 'Baño con azulejo beige, cenefa de mosaico, lavabo ovalado empotrado en cubierta de mármol claro y espejo que cubre el muro completo.',
+          width: 977,
+          height: 872,
+          weight: 'normal',
+        },
+        label: 'Antes',
+      },
+      after: {
+        figure: {
+          image: 'transformacion-2-despues',
+          alt: 'El mismo baño terminado: espejo de abanico retroiluminado, cubierta de granito negro, lavabo rectangular, grifería dorada y carpintería de madera veteada.',
+          width: 1080,
+          height: 964,
+          weight: 'normal',
+        },
+        label: 'Después',
+      },
+    },
+    {
+      id: 'recamara',
+      before: {
+        figure: {
+          image: 'transformacion-3-antes',
+          alt: 'Habitación vacía con piso de travertino, muros blancos sin acabados y persiana enrollable sobre el ventanal.',
+          width: 883,
+          height: 788,
+          weight: 'normal',
+        },
+        label: 'Antes',
+      },
+      after: {
+        figure: {
+          image: 'transformacion-3-despues',
+          alt: 'La misma habitación terminada como recámara: muro de listones de madera con luz oculta, cabecera tapizada, buró flotante y piso de mármol.',
+          width: 887,
+          height: 792,
+          weight: 'normal',
+        },
+        label: 'Después',
+      },
+    },
+    {
+      id: 'sala',
+      before: {
+        figure: {
+          image: 'transformacion-4-antes',
+          alt: 'Sala en obra: lonas de protección cubriendo el piso, sacos de material y herramienta frente al ventanal.',
+          width: 885,
+          height: 790,
+          weight: 'normal',
+        },
+        label: 'Antes',
+      },
+      after: {
+        figure: {
+          image: 'transformacion-4-despues',
+          alt: 'La misma sala terminada: piso de madera oscura, muros pintados y cortinas a los costados del ventanal que da al balcón.',
+          width: 883,
+          height: 788,
+          weight: 'normal',
+        },
+        label: 'Después',
+      },
+    },
+    {
+      id: 'terraza',
+      before: {
+        figure: {
+          image: 'transformacion-5-antes',
+          alt: 'Terraza con deck de madera desgastado, muros blancos, macetas con sansevierias alineadas al muro y una serie de focos colgada.',
+          width: 1080,
+          height: 964,
+          weight: 'normal',
+        },
+        label: 'Antes',
+      },
+      after: {
+        figure: {
+          image: 'transformacion-5-propuesta',
+          alt: 'Propuesta para la misma terraza: pérgola de madera, iluminación cálida en muros, jardinera integrada y sala exterior con mesa baja.',
+          width: 1080,
+          height: 964,
+          weight: 'normal',
+        },
+        label: 'Propuesta',
+      },
+    },
+  ] satisfies TransformationCase[],
 }
 
 export const studio = {
+  /** Línea de rol. Va con el tratamiento de versalitas del sitio, no como párrafo. */
+  role: 'Arquitecta de Interiores · Fundadora de AE Interiorismo',
+  /**
+   * Texto entregado por la clienta. Se corrigió gramática y se unificó en tercera
+   * persona; no se agregó ni se quitó ningún hecho. La única reescritura de fondo
+   * es el último párrafo, que empezaba con «Porque» como fragmento suelto.
+   */
   body: [
-    'Alejandra Espinosa dirige el estudio y acompaña cada proyecto de principio a fin.',
-    'Su trabajo parte de escuchar: cómo se usa el espacio hoy, qué estorba y qué vale la pena conservar. A partir de ahí traduce esas rutinas en luz, materiales y proporciones.',
-    'Trabaja proyectos residenciales, comerciales y corporativos, con el mismo criterio en todos: que el espacio se sienta propio y siga funcionando dentro de diez años.',
+    'Su pasión por el diseño nace de una convicción: un espacio bien resuelto cambia la manera en que se vive, se trabaja y se recibe.',
+    'Estudió la licenciatura en Arquitectura de Interiores, varios diplomados en Diseño de Interiores y una Maestría en Emprendimiento e Innovación Digital. Con esa formación dirige su propio estudio.',
+    'Un gran proyecto no se define por su estética, sino por el detalle y por interpretar la personalidad, las necesidades y el estilo de vida de cada cliente. Por eso cada uno empieza escuchando, no imponiendo un estilo.',
+    'Acompaña el proceso completo: distribución, materiales, mobiliario, iluminación, texturas, colores y detalles finales. Para ella el verdadero lujo está en crear espacios que se sientan únicos para quien los habita.',
   ],
   /**
    * Retrato entregado por la clienta. El original es horizontal (1080x854); se

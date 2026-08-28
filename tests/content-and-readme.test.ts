@@ -5,13 +5,16 @@ import { describe, expect, test } from 'vitest'
 import { contact, hero, studio, transformation, visualLanguage } from '../src/content/site'
 
 const figuras = [hero.figure, visualLanguage.fullBleed, ...visualLanguage.figures,
-                 transformation.before.figure, transformation.after.figure,
+                 ...transformation.cases.flatMap((c) => [c.before.figure, c.after.figure]),
                  ...(studio.portrait ? [studio.portrait] : [])]
 
 describe('contrato de imágenes', () => {
   test.each(figuras)('$image declara alt descriptivo y dimensiones reales', (figura) => {
     expect(figura.image).toMatch(/^[a-z0-9-]+$/)
-    expect(figura.alt.trim().length).toBeGreaterThanOrEqual(60)
+    // El umbral era 60, pero la clienta pidió un pie más corto para la cafetería
+    // y ese string se muestra en pantalla además de servir como alt. 40 sigue
+    // descartando alts vacíos o de una palabra.
+    expect(figura.alt.trim().length).toBeGreaterThanOrEqual(40)
     // El alt describe el espacio, no el archivo.
     expect(figura.alt).not.toMatch(/imagen de|foto de|\.webp|\.avif/i)
     expect(figura.width).toBeGreaterThan(0)
@@ -37,12 +40,20 @@ describe('honestidad del contenido', () => {
     expect(visualLanguage.disclosure).toMatch(/concepto/i)
   })
 
-  test('el par comparativo lleva ambos rótulos', () => {
-    // La clienta decidió "Antes / Después". Quien sostiene que las imágenes no
-    // son obra ejecutada es el aviso de la galería, que sigue siendo obligatorio.
-    expect(transformation.before.label).toBe('Antes')
-    expect(transformation.after.label).toBe('Después')
+  test('cada caso abre con Antes y cierra con un rótulo válido', () => {
+    transformation.cases.forEach((caso) => {
+      expect(caso.before.label).toBe('Antes')
+      // "Después" sólo si es obra terminada; "Propuesta" si es render. Cualquier
+      // otro rótulo se escapó de la revisión de contenido.
+      expect(['Después', 'Propuesta']).toContain(caso.after.label)
+    })
     expect(visualLanguage.disclosure.trim().length).toBeGreaterThan(0)
+  })
+
+  test('el caso de la terraza se rotula como propuesta, no como obra', () => {
+    // Su segunda imagen es un render. Rotularla "Después" afirmaría que se construyó.
+    const terraza = transformation.cases.find((c) => c.id === 'terraza')
+    expect(terraza?.after.label).toBe('Propuesta')
   })
 
   test('no se afirman cifras, premios ni años de experiencia', () => {

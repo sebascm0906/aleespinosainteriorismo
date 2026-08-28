@@ -146,6 +146,19 @@ a {
   color: var(--acento);
 }
 
+/* Reparto de renglones en texto corrido: evita viudas y empareja el final de
+   línea. No se usa `justify`: en una columna de ~52 caracteres en español abre
+   ríos de espacio entre palabras y se ve peor que el problema que resuelve. */
+.philosophy-body p,
+.studio-body p,
+.section-heading > p,
+.contact-copy p,
+.services-list p,
+.transformation-pair figcaption,
+.disclosure {
+  text-wrap: pretty;
+}
+
 h1,
 h2,
 h3 {
@@ -535,6 +548,7 @@ main[id] {
 
 .disclosure {
   grid-column: 2 / -2;
+  max-width: 60ch;
   margin-top: 1.5rem;
   color: var(--texto-suave);
   font-size: var(--paso--1);
@@ -554,6 +568,152 @@ main[id] {
 }
 
 /* ---------- Antes / propuesta ---------- */
+
+/* ---------- Carrusel antes/después ---------- */
+
+.carrusel {
+  grid-column: 2 / -2;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* Desplazamiento nativo: el swipe táctil funciona sin JavaScript. */
+.carrusel-pista {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  gap: var(--canal);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.carrusel-pista::-webkit-scrollbar {
+  display: none;
+}
+
+.carrusel-vista {
+  scroll-snap-align: start;
+  min-width: 0;
+}
+
+/* Todas las imágenes comparten la proporción del caso original: sin esto el
+   carrusel salta de alto al cambiar de vista, porque los recortes difieren en
+   algunos píxeles. */
+.carrusel .transformation-pair figure img {
+  aspect-ratio: 1165 / 1040;
+  object-fit: cover;
+}
+
+.carrusel .transformation-pair {
+  grid-column: auto;
+  margin-top: 0;
+}
+
+.carrusel-controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  margin-top: 1.75rem;
+}
+
+.carrusel-controles > button {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;          /* nunca se comprimen por debajo del objetivo táctil */
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--borde);
+  background: transparent;
+  color: var(--texto);
+  cursor: pointer;
+  transition: border-color var(--transicion), color var(--transicion);
+}
+
+.carrusel-controles > button:hover:not(:disabled) {
+  border-color: var(--laton-luz);
+  color: var(--laton-luz);
+}
+
+.carrusel-controles > button:disabled {
+  color: var(--texto-suave);
+  cursor: default;
+  opacity: 0.45;
+}
+
+.carrusel-controles svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.carrusel-puntos {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* El objetivo táctil mide 44px; la marca visible es el filete de latón interior. */
+.carrusel-puntos button {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.carrusel-puntos button::before {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: var(--borde);
+  transition: background var(--transicion);
+}
+
+.carrusel-puntos button[data-activo='true']::before {
+  background: var(--laton-luz);
+}
+
+.carrusel-puntos button:hover::before {
+  background: var(--acento);
+}
+
+/* Contador: sólo aparece cuando los indicadores no caben. */
+.carrusel-conteo {
+  display: none;
+  min-width: 3.5ch;
+  margin: 0;
+  color: var(--texto-suave);
+  font-family: var(--display);
+  font-size: var(--paso--1);
+  letter-spacing: 0.2em;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+/* Cinco objetivos de 44px más las dos flechas no caben por debajo de 480px:
+   el flex los comprimía a 14px de ancho. Se cambian por el contador. */
+@media (max-width: 479px) {
+  .carrusel-puntos {
+    display: none;
+  }
+
+  .carrusel-conteo {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carrusel-pista {
+    scroll-behavior: auto;
+  }
+}
 
 .transformation-pair {
   grid-column: 2 / -2;
@@ -602,6 +762,20 @@ main[id] {
 
 /* El archivo nativo mide 854 px de lado. Sin este tope, en tablet y móvil la
    sección lo estira a todo el ancho y se escala hacia arriba: se ve blando. */
+/* Justificado a petición de la clienta, sólo en la biografía y sólo desde 768px.
+   Medido: en la columna ancha los renglones van de 68 a 79 caracteres, 15% de
+   variación, y el justificado se ve parejo. En móvil la columna cae a 34-47
+   caracteres, 32% de variación: ahí los espacios se estiran al doble en unos
+   renglones y sí produce ríos, que es peor que el borde derecho irregular.
+   `hyphens: auto` reparte mejor; el html declara lang="es-MX", de donde el
+   navegador toma las reglas de partición. */
+@media (min-width: 768px) {
+  .studio-body p:not(.studio-role) {
+    text-align: justify;
+    hyphens: auto;
+  }
+}
+
 .studio-portrait {
   grid-column: 8 / -2;
   max-width: 30rem;
@@ -612,6 +786,13 @@ main[id] {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+}
+
+/* La línea de rol usa el latón hondo de la sección clara, no el latón normal:
+   sobre hueso el normal da 2.47:1 y no pasa. */
+.studio-role {
+  color: var(--laton-hondo);
+  margin-bottom: 0.25rem;
 }
 
 .studio-link {

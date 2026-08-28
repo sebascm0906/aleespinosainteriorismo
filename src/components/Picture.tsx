@@ -4,8 +4,14 @@ interface PictureProps {
   figure: Figure
   /** Atributo `sizes`: describe el ancho de presentación real en cada breakpoint. */
   sizes: string
-  /** Sólo la imagen del LCP. Las demás van lazy. */
+  /** Sólo la imagen del LCP: carga anticipada y prioridad alta de red. */
   priority?: boolean
+  /**
+   * Carga anticipada con prioridad de red normal. Para contenido bajo el pliegue
+   * que debe estar listo al llegar —la primera vista de un carrusel— sin competir
+   * con el LCP por ancho de banda.
+   */
+  eager?: boolean
   className?: string
 }
 
@@ -15,7 +21,13 @@ interface PictureProps {
  * `width` y `height` van siempre en el `<img>` y además como `aspect-ratio`, para
  * que el navegador reserve el espacio antes de descargar y el CLS quede en cero.
  */
-export default function Picture({ figure, sizes, priority = false, className }: PictureProps) {
+export default function Picture({
+  figure,
+  sizes,
+  priority = false,
+  eager = false,
+  className,
+}: PictureProps) {
   const { image, alt, width, height } = figure
   // El export sólo genera la variante -640 cuando la imagen es más ancha que eso.
   // Anunciarla siempre haría que el navegador pidiera un archivo inexistente en
@@ -38,7 +50,7 @@ export default function Picture({ figure, sizes, priority = false, className }: 
         width={width}
         height={height}
         sizes={sizes}
-        loading={priority ? 'eager' : 'lazy'}
+        loading={priority || eager ? 'eager' : 'lazy'}
         decoding={priority ? 'sync' : 'async'}
         fetchPriority={priority ? 'high' : 'auto'}
         style={{ aspectRatio: `${width} / ${height}` }}
