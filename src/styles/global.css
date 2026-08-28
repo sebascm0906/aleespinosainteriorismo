@@ -762,6 +762,20 @@ main[id] {
 
 /* El archivo nativo mide 854 px de lado. Sin este tope, en tablet y móvil la
    sección lo estira a todo el ancho y se escala hacia arriba: se ve blando. */
+/* Justificado a petición de la clienta, sólo en la biografía y sólo desde 768px.
+   Medido: en la columna ancha los renglones van de 68 a 79 caracteres, 15% de
+   variación, y el justificado se ve parejo. En móvil la columna cae a 34-47
+   caracteres, 32% de variación: ahí los espacios se estiran al doble en unos
+   renglones y sí produce ríos, que es peor que el borde derecho irregular.
+   `hyphens: auto` reparte mejor; el html declara lang="es-MX", de donde el
+   navegador toma las reglas de partición. */
+@media (min-width: 768px) {
+  .studio-body p:not(.studio-role) {
+    text-align: justify;
+    hyphens: auto;
+  }
+}
+
 .studio-portrait {
   grid-column: 8 / -2;
   max-width: 30rem;

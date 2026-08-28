@@ -274,8 +274,7 @@ export interface TransformationCase {
 export const transformation = {
   eyebrow: 'Antes y después',
   title: 'De lo que hay a lo que puede ser',
-  description:
-    'Cada caso muestra el estado original del espacio y el resultado del proyecto. Donde la segunda imagen es un render, se indica como propuesta.',
+  description: 'Cada caso muestra el estado original del espacio y el resultado del proyecto.',
   cases: [
     {
       id: 'departamento',
@@ -404,12 +403,10 @@ export const studio = {
    * es el último párrafo, que empezaba con «Porque» como fragmento suelto.
    */
   body: [
-    'Su pasión por el diseño nace de la convicción de que un espacio bien diseñado puede transformar por completo la manera en que vivimos, trabajamos y nos relacionamos con nuestro entorno.',
-    'Estudió la licenciatura en Arquitectura de Interiores, cursó varios diplomados en Diseño de Interiores y una Maestría en Emprendimiento e Innovación Digital. Esa formación le permite unir creatividad, diseño, visión empresarial e innovación para dirigir y desarrollar su propio estudio.',
-    'A lo largo de su trayectoria ha confirmado que un gran proyecto no se define únicamente por su estética, sino por la atención a cada detalle y por la capacidad de interpretar la personalidad, las necesidades y el estilo de vida de cada cliente.',
-    'En Alejandra Espinosa Interiorismo cada proyecto comienza escuchando al cliente. No se trata de imponer un estilo, sino de comprender sus gustos y transformarlos en un concepto de diseño coherente, sofisticado y hecho a su medida.',
-    'Su compromiso es acompañar cada proyecto con una visión integral, cuidando desde la distribución y la selección de materiales hasta el mobiliario, la iluminación, las texturas, los colores y los detalles finales.',
-    'Para ella, el verdadero lujo está en crear espacios que no solo se vean extraordinarios, sino que se sientan únicos para quienes los habitan.',
+    'Su pasión por el diseño nace de una convicción: un espacio bien resuelto cambia la manera en que se vive, se trabaja y se recibe.',
+    'Estudió la licenciatura en Arquitectura de Interiores, varios diplomados en Diseño de Interiores y una Maestría en Emprendimiento e Innovación Digital. Con esa formación dirige su propio estudio.',
+    'Un gran proyecto no se define por su estética, sino por el detalle y por interpretar la personalidad, las necesidades y el estilo de vida de cada cliente. Por eso cada uno empieza escuchando, no imponiendo un estilo.',
+    'Acompaña el proceso completo: distribución, materiales, mobiliario, iluminación, texturas, colores y detalles finales. Para ella el verdadero lujo está en crear espacios que se sientan únicos para quien los habita.',
   ],
   /**
    * Retrato entregado por la clienta. El original es horizontal (1080x854); se
