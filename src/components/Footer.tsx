@@ -5,8 +5,12 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="footer-brand">
         <img src={brand.logo.src} alt={brand.logo.alt} width={794} height={594} loading="lazy" />
-        <p>{footer.copyright}</p>
-        <p>{footer.credit}</p>
+        {/* Los dos textos van agrupados para poder ponerlos al costado del
+            logotipo en vez de debajo: es lo que baja la altura del pie. */}
+        <div className="footer-legal">
+          <p>{footer.copyright}</p>
+          <p>{footer.credit}</p>
+        </div>
       </div>
 
       <nav aria-label="Enlaces del pie">
