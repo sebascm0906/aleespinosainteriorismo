@@ -110,14 +110,16 @@ Antes de publicar, en el panel de Formspree:
 ## Bloqueadores de publicación
 
 - [ ] Vector real del logotipo, para sustituir los PNG por SVG.
-- [ ] Correo de contacto confirmado. Hoy es `pendiente@aleespinosa.mx`, un marcador.
 - [ ] Confirmar autoría de los renders y de la fotografía del «antes» antes de publicarlos.
 - [ ] Datos para el JSON-LD `ProfessionalService`: dirección y teléfono público, si la clienta quiere aparecer en búsqueda local. No se inventan.
-- [ ] Aviso de privacidad con texto aprobado en `public/aviso-de-privacidad.html`.
 - [ ] Formspree con endpoint real, antispam y dominio configurados.
 - [ ] `npm test -- --run` y `npm run build` en verde con los assets finales.
 
-El número de WhatsApp (`+52 55 9188 9761`) sí está confirmado por la clienta y vive en `src/content/site.ts`, no en el componente.
+Ya confirmados por la clienta y en `src/content/site.ts`, no en los componentes: el número de WhatsApp (`+52 55 9188 9761`) y el correo (`Aleespinosainteriorismo@outlook.com`).
+
+El aviso de privacidad ya trae el texto legal que entregó la clienta. Sólo se maquetó; no se redactó ni se completó nada.
+
+**Dato disponible pero no usado:** el aviso declara el domicilio Av. Coyoacán 1919, Col. Acacias, Benito Juárez, CDMX. No se agregó al JSON-LD `ProfessionalService` porque un domicilio fiscal en un aviso legal no es lo mismo que una dirección de atención al público. Si la clienta quiere aparecer en búsqueda local, se agrega cuando lo confirme.
 
 ## WhatsApp Business Platform
 

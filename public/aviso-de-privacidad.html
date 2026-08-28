@@ -3,10 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#14120e" />
     <title>Aviso de privacidad | Alejandra Espinosa Interiorismo</title>
+    <meta
+      name="description"
+      content="Aviso de privacidad integral de Alejandra Espinosa Interiorismo, conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares."
+    />
     <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,16 +19,9 @@
     />
 
     <!--
-      CONTENEDOR PREPARADO, SIN TEXTO LEGAL.
-
-      Las secciones de abajo están vacías a propósito. Un aviso de privacidad es un
-      documento legal con contenido obligatorio en México (LFPDPPP) y no puede
-      redactarse a partir de una plantilla ni deducirse: lo tiene que entregar la
-      clienta o su asesor legal.
-
-      Para completarlo: sustituir cada bloque marcado con PENDIENTE por el texto
-      aprobado y borrar el aviso provisional del inicio. La estructura, la tipografía
-      y la medida ya coinciden con el resto del sitio.
+      Texto legal entregado por la clienta. No se redactó ni se completó nada aquí:
+      sólo se maquetó. Cualquier corrección de fondo la tiene que hacer ella o su
+      asesor legal.
     -->
 
     <style>
@@ -39,10 +36,10 @@
         --sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
         --paso--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.875rem);
         --paso-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-        --paso-2: clamp(1.6rem, 1.4rem + 1vw, 2.25rem);
-        --paso-3: clamp(2.5rem, 1.9rem + 3vw, 5rem);
+        --paso-2: clamp(1.35rem, 1.2rem + 0.7vw, 1.75rem);
+        --paso-3: clamp(2.25rem, 1.8rem + 2.4vw, 4rem);
         --margen: clamp(1.25rem, 5vw, 5.5rem);
-        --aire: clamp(3.5rem, 8vw, 7.5rem);
+        --aire: clamp(3rem, 6vw, 5rem);
       }
 
       * {
@@ -57,12 +54,13 @@
         color: var(--hueso);
         font-family: var(--sans);
         font-size: var(--paso-0);
-        line-height: 1.6;
+        line-height: 1.65;
         -webkit-font-smoothing: antialiased;
       }
 
       a {
-        color: inherit;
+        color: var(--laton-luz);
+        text-underline-offset: 3px;
       }
 
       :where(a):focus-visible {
@@ -71,9 +69,9 @@
       }
 
       .shell {
-        max-width: 52rem;
+        max-width: 48rem;
         margin-inline: auto;
-        padding: var(--aire) var(--margen);
+        padding: var(--aire) var(--margen) calc(var(--aire) * 1.5);
       }
 
       .volver {
@@ -94,58 +92,114 @@
         border-bottom-color: var(--laton-luz);
       }
 
+      .eyebrow {
+        margin: 2.75rem 0 0;
+        font-family: var(--display);
+        font-size: var(--paso--1);
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--laton);
+      }
+
       h1 {
-        margin: 2.5rem 0 0;
+        margin: 0.6rem 0 0;
         font-family: var(--display);
         font-weight: 400;
         font-size: var(--paso-3);
-        line-height: 1.03;
+        line-height: 1.05;
         letter-spacing: -0.01em;
         text-wrap: balance;
       }
 
+      .fecha {
+        margin: 1rem 0 0;
+        color: var(--humo);
+        font-size: var(--paso--1);
+      }
+
       h2 {
-        margin: 0 0 0.5rem;
+        margin: 0 0 0.9rem;
         font-family: var(--display);
         font-weight: 400;
         font-size: var(--paso-2);
-        line-height: 1.15;
+        line-height: 1.2;
+        text-wrap: balance;
+      }
+
+      /* La numeración es del documento original y sí es una secuencia: se conserva. */
+      h2 .n {
+        display: block;
+        margin-bottom: 0.35rem;
+        font-family: var(--sans);
+        font-size: var(--paso--1);
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        color: var(--laton);
       }
 
       p {
-        max-width: 60ch;
         margin: 0 0 1rem;
         text-wrap: pretty;
       }
 
-      .provisional {
-        margin-top: 2rem;
-        padding: 1.15rem 1.35rem;
-        border: 1px solid var(--borde);
-        color: var(--laton-luz);
-        font-size: var(--paso--1);
-      }
-
       section {
         margin-top: var(--aire);
+        padding-top: var(--aire);
+        border-top: 1px solid var(--borde);
       }
 
-      .pendiente {
-        max-width: 60ch;
-        margin: 0;
+      ul {
+        margin: 0 0 1rem;
         padding-left: 1.15rem;
-        border-left: 2px solid var(--borde);
-        color: var(--humo);
-        font-size: var(--paso--1);
-        font-style: italic;
       }
 
-      footer {
+      li {
+        margin-bottom: 0.5rem;
+      }
+
+      .contacto {
+        margin: 0 0 1rem;
+        padding: 1rem 1.2rem;
+        border: 1px solid var(--borde);
+        font-family: var(--display);
+        letter-spacing: 0.04em;
+        word-break: break-word;
+      }
+
+      .identificacion {
         margin-top: var(--aire);
-        padding-top: 1.5rem;
+        padding-top: var(--aire);
         border-top: 1px solid var(--borde);
         color: var(--humo);
         font-size: var(--paso--1);
+      }
+
+      .identificacion dl {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.4rem 1.25rem;
+        margin: 0;
+      }
+
+      .identificacion dt {
+        color: var(--laton);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .identificacion dd {
+        margin: 0;
+      }
+
+      @media (max-width: 479px) {
+        .identificacion dl {
+          grid-template-columns: 1fr;
+          gap: 0.15rem;
+        }
+
+        .identificacion dd {
+          margin-bottom: 0.65rem;
+        }
       }
     </style>
   </head>
@@ -154,75 +208,273 @@
     <main class="shell">
       <a class="volver" href="/">Volver al inicio</a>
 
-      <h1>Aviso de privacidad</h1>
+      <p class="eyebrow">Aviso de privacidad integral</p>
+      <h1>Alejandra Espinosa Interiorismo</h1>
+      <p class="fecha">Última actualización: agosto de 2026</p>
 
-      <p class="provisional">
-        Este documento todavía no tiene contenido. El texto legal debe entregarlo Alejandra
-        Espinosa Interiorismo o su asesor legal antes de publicar el sitio en su dominio.
+      <p style="margin-top: 2rem">
+        En cumplimiento de la Ley Federal de Protección de Datos Personales en Posesión de los
+        Particulares y demás disposiciones aplicables, Alejandra Espinosa de los Monteros Garcia,
+        persona física con actividad empresarial y profesional, operando comercialmente bajo el
+        nombre de Alejandra Espinosa Interiorismo, con domicilio en Av. Coyoacán 1919, Colonia
+        Acacias, Alcaldía Benito Juárez, Ciudad de México, es responsable del tratamiento, uso,
+        almacenamiento y protección de los datos personales recabados de sus clientes, prospectos,
+        proveedores y usuarios de su sitio web.
+      </p>
+
+      <p>
+        Para cualquier asunto relacionado con la protección de sus datos personales, puede
+        contactarnos a través del correo electrónico:
+      </p>
+
+      <p class="contacto">
+        <a href="mailto:Aleespinosainteriorismo@outlook.com">Aleespinosainteriorismo@outlook.com</a>
       </p>
 
       <section>
-        <h2>Responsable del tratamiento</h2>
-        <p class="pendiente">
-          PENDIENTE — razón social o nombre completo del responsable, y domicilio fiscal.
+        <h2><span class="n">1</span>Datos personales que podemos recabar</h2>
+        <p>
+          Alejandra Espinosa Interiorismo podrá recabar, según la relación existente con el titular,
+          datos personales tales como:
+        </p>
+        <ul>
+          <li>Nombre y apellidos.</li>
+          <li>Número telefónico.</li>
+          <li>Correo electrónico.</li>
+          <li>Información proporcionada mediante formularios de contacto.</li>
+          <li>
+            Información relacionada con el proyecto de arquitectura, interiorismo, remodelación,
+            decoración o servicios solicitados.
+          </li>
+          <li>
+            Domicilio o ubicación del inmueble en el que se desarrollará un proyecto, cuando sea
+            necesario.
+          </li>
+          <li>
+            Información necesaria para elaborar cotizaciones, propuestas, contratos y prestar los
+            servicios solicitados.
+          </li>
+          <li>Datos de facturación cuando sean requeridos.</li>
+          <li>
+            Información que voluntariamente sea proporcionada mediante correo electrónico, teléfono,
+            WhatsApp, redes sociales u otros medios de comunicación habilitados por Alejandra
+            Espinosa Interiorismo.
+          </li>
+        </ul>
+        <p>
+          En principio, a través del sitio web no se pretende solicitar datos personales sensibles.
+          En caso de que excepcionalmente fuera necesario tratar este tipo de información, se
+          solicitará el consentimiento correspondiente cuando resulte legalmente exigible.
         </p>
       </section>
 
       <section>
-        <h2>Datos personales que se recaban</h2>
-        <p class="pendiente">
-          PENDIENTE — enumerar los datos. El formulario del sitio recaba nombre, correo
-          electrónico y el mensaje que escribe la persona; confirmar si se recaba algo más.
+        <h2><span class="n">2</span>Finalidades del tratamiento de datos personales</h2>
+        <p>
+          Los datos personales podrán utilizarse para las siguientes finalidades primarias,
+          necesarias para la relación con usted:
+        </p>
+        <ul>
+          <li>Atender solicitudes de información.</li>
+          <li>Contactar a clientes y clientes potenciales.</li>
+          <li>Elaborar y enviar cotizaciones y propuestas.</li>
+          <li>Conocer las necesidades, características y alcances de cada proyecto.</li>
+          <li>Programar reuniones, visitas, asesorías o citas.</li>
+          <li>
+            Prestar servicios de arquitectura de interiores, diseño de interiores, decoración,
+            remodelación y servicios relacionados.
+          </li>
+          <li>Dar seguimiento a proyectos y servicios contratados.</li>
+          <li>Mantener comunicación durante el desarrollo de los proyectos.</li>
+          <li>Elaborar contratos, comprobantes y documentación relacionada con los servicios.</li>
+          <li>Realizar procesos administrativos, contables y de facturación.</li>
+          <li>Atender dudas, comentarios, solicitudes y aclaraciones.</li>
+          <li>Cumplir obligaciones legales, fiscales y contractuales aplicables.</li>
+        </ul>
+        <p>
+          Adicionalmente, podremos utilizar determinados datos para las siguientes finalidades
+          secundarias:
+        </p>
+        <ul>
+          <li>Envío de información sobre nuestros servicios.</li>
+          <li>Presentación de nuevos proyectos o servicios.</li>
+          <li>Comunicaciones comerciales y promocionales.</li>
+          <li>
+            Invitaciones, novedades o contenido relacionado con Alejandra Espinosa Interiorismo.
+          </li>
+          <li>Realización de encuestas de satisfacción y mejora de nuestros servicios.</li>
+        </ul>
+        <p>
+          El titular podrá solicitar en cualquier momento que sus datos personales no sean
+          utilizados para las finalidades secundarias enviando una solicitud al correo electrónico
+          <a href="mailto:Aleespinosainteriorismo@outlook.com">Aleespinosainteriorismo@outlook.com</a>.
         </p>
       </section>
 
       <section>
-        <h2>Finalidades del tratamiento</h2>
-        <p class="pendiente">
-          PENDIENTE — separar finalidades necesarias de las que requieren consentimiento.
+        <h2><span class="n">3</span>Imágenes, fotografías y material de proyectos</h2>
+        <p>
+          Durante el desarrollo de determinados proyectos podrán generarse fotografías, videos,
+          renders, planos u otro material visual relacionado con los espacios intervenidos.
+        </p>
+        <p>
+          Cuando resulte aplicable, Alejandra Espinosa Interiorismo podrá solicitar autorización
+          para utilizar imágenes de los proyectos terminados con fines de portafolio, página web,
+          redes sociales, presentaciones comerciales o material promocional.
+        </p>
+        <p>
+          Cuando corresponda legalmente, dicha utilización estará sujeta a la autorización
+          correspondiente y se procurará evitar la publicación de información que permita
+          identificar innecesariamente al cliente, su domicilio exacto u otros datos personales.
         </p>
       </section>
 
       <section>
-        <h2>Transferencias de datos</h2>
-        <p class="pendiente">
-          PENDIENTE — indicar si los datos se comparten con terceros. El formulario se procesa
-          con Formspree, un proveedor externo: eso debe declararse aquí.
+        <h2><span class="n">4</span>Transferencia de datos personales</h2>
+        <p>
+          Alejandra Espinosa Interiorismo podrá compartir los datos personales estrictamente
+          necesarios con proveedores o terceros que participen en la prestación de los servicios
+          contratados, cuando ello resulte necesario para ejecutar un proyecto, gestionar servicios
+          administrativos o cumplir obligaciones legales.
+        </p>
+        <p>
+          Entre ellos pueden encontrarse proveedores, contratistas, especialistas, prestadores de
+          servicios tecnológicos, administrativos, contables o profesionales relacionados con el
+          desarrollo del proyecto.
+        </p>
+        <p>
+          Cuando una transferencia requiera el consentimiento del titular conforme a la legislación
+          aplicable, éste será solicitado previamente.
         </p>
       </section>
 
       <section>
-        <h2>Derechos ARCO y cómo ejercerlos</h2>
-        <p class="pendiente">
-          PENDIENTE — acceso, rectificación, cancelación y oposición: procedimiento, medio de
-          contacto y plazo de respuesta.
+        <h2><span class="n">5</span>Derechos ARCO</h2>
+        <p>
+          El titular de los datos personales podrá ejercer sus derechos de Acceso, Rectificación,
+          Cancelación y Oposición (ARCO) respecto de sus datos personales.
+        </p>
+        <p>
+          Asimismo, podrá solicitar, cuando corresponda conforme a la legislación aplicable, la
+          revocación de su consentimiento o manifestar su negativa para determinados tratamientos.
+        </p>
+        <p>Para ejercer estos derechos deberá enviar una solicitud al correo electrónico:</p>
+        <p class="contacto">
+          <a href="mailto:Aleespinosainteriorismo@outlook.com">Aleespinosainteriorismo@outlook.com</a>
+        </p>
+        <p>
+          La solicitud deberá contener información suficiente para identificar al titular y permitir
+          atender adecuadamente su petición, así como la descripción clara del derecho que desea
+          ejercer.
+        </p>
+        <p>
+          La solicitud será atendida conforme a los requisitos, procedimientos y plazos establecidos
+          en la legislación aplicable.
         </p>
       </section>
 
       <section>
-        <h2>Uso de cookies y tecnologías de rastreo</h2>
-        <p class="pendiente">
-          PENDIENTE — declarar si el sitio usa cookies o analítica, y cómo deshabilitarlas.
+        <h2><span class="n">6</span>Limitación del uso o divulgación de los datos</h2>
+        <p>
+          El titular podrá solicitar la limitación del uso o divulgación de sus datos personales,
+          especialmente respecto de comunicaciones promocionales o publicitarias, enviando su
+          solicitud al correo electrónico:
+        </p>
+        <p class="contacto">
+          <a href="mailto:Aleespinosainteriorismo@outlook.com">Aleespinosainteriorismo@outlook.com</a>
         </p>
       </section>
 
       <section>
-        <h2>Contacto</h2>
-        <p class="pendiente">
-          PENDIENTE — correo electrónico del responsable de datos personales.
+        <h2><span class="n">7</span>Cookies y tecnologías de rastreo</h2>
+        <p>
+          El sitio web de Alejandra Espinosa Interiorismo podrá utilizar cookies y otras tecnologías
+          similares para mejorar la experiencia de navegación, conocer el funcionamiento del sitio,
+          obtener información estadística y, en su caso, apoyar actividades de medición o publicidad
+          digital.
+        </p>
+        <p>
+          Dependiendo de la configuración final del sitio web, estas tecnologías podrían obtener
+          información relacionada con el dispositivo, navegador, dirección IP, páginas visitadas,
+          duración de las sesiones, origen de la visita e interacción con el sitio.
+        </p>
+        <p>
+          El usuario podrá administrar o deshabilitar determinadas cookies desde la configuración de
+          su navegador y, cuando corresponda, mediante las herramientas de consentimiento
+          disponibles en el sitio web.
         </p>
       </section>
 
       <section>
-        <h2>Cambios al aviso</h2>
-        <p class="pendiente">
-          PENDIENTE — cómo se comunican las modificaciones a este aviso.
+        <h2><span class="n">8</span>Redes sociales y servicios de terceros</h2>
+        <p>
+          Alejandra Espinosa Interiorismo podrá mantener presencia en redes sociales y utilizar
+          plataformas o herramientas proporcionadas por terceros.
+        </p>
+        <p>
+          Cuando el usuario interactúe con Alejandra Espinosa Interiorismo mediante dichas
+          plataformas, el tratamiento de determinada información también podrá estar sujeto a los
+          términos, condiciones y políticas de privacidad de cada plataforma.
         </p>
       </section>
 
-      <footer>
-        <p>Última actualización: PENDIENTE</p>
-      </footer>
+      <section>
+        <h2><span class="n">9</span>Medidas de seguridad</h2>
+        <p>
+          Alejandra Espinosa Interiorismo adoptará medidas administrativas, técnicas y físicas
+          razonables y apropiadas para proteger los datos personales contra daño, pérdida,
+          alteración, destrucción, uso, acceso o tratamiento no autorizado, conforme a las
+          obligaciones aplicables.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="n">10</span>Cambios al aviso de privacidad</h2>
+        <p>
+          Alejandra Espinosa Interiorismo se reserva el derecho de realizar modificaciones o
+          actualizaciones al presente Aviso de Privacidad como consecuencia de cambios legales,
+          nuevos requerimientos, modificaciones en los servicios ofrecidos o cambios en las
+          prácticas de privacidad.
+        </p>
+        <p>
+          La versión vigente estará disponible en el sitio web oficial de Alejandra Espinosa
+          Interiorismo.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="n">11</span>Consentimiento</h2>
+        <p>
+          Al proporcionar voluntariamente sus datos personales mediante los formularios del sitio
+          web, correo electrónico, teléfono u otros medios de contacto y continuar con la relación
+          correspondiente, el titular reconoce haber tenido acceso al presente Aviso de Privacidad,
+          sin perjuicio de aquellos casos en los que la legislación aplicable requiera una
+          manifestación expresa de consentimiento.
+        </p>
+      </section>
+
+      <div class="identificacion">
+        <dl>
+          <dt>Responsable</dt>
+          <dd>Cindy Alejandra Espinosa de los Monteros Garcia</dd>
+
+          <dt>Nombre comercial</dt>
+          <dd>Alejandra Espinosa Interiorismo</dd>
+
+          <dt>Domicilio</dt>
+          <dd>Av. Coyoacán 1919, Colonia Acacias, Alcaldía Benito Juárez, Ciudad de México</dd>
+
+          <dt>Correo electrónico</dt>
+          <dd>
+            <a href="mailto:Aleespinosainteriorismo@outlook.com"
+              >Aleespinosainteriorismo@outlook.com</a
+            >
+          </dd>
+
+          <dt>Última actualización</dt>
+          <dd>Agosto de 2026</dd>
+        </dl>
+      </div>
     </main>
   </body>
 </html>
