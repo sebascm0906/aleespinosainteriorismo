@@ -1,14 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
 import { visualLanguage } from '../content/site'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 import Lightbox from './Lightbox'
 import Picture from './Picture'
 
 /**
- * Retícula editorial con pesos alternados. Las celdas `ancha` ocupan cuatro
- * columnas de seis y las `alta` ocupan dos filas: eso produce el ritmo irregular
- * en vez de una cuadrícula uniforme.
+ * Retícula uniforme de celdas cuadradas: tres columnas desde 768px, dos por
+ * debajo. `Figure.weight` sigue en el contenido porque describe la imagen, pero
+ * ya no altera la forma en pantalla.
  */
 export default function VisualLanguage() {
+  // Con tres columnas las nueve imágenes dan tres filas exactas. Con dos, la
+  // última fila queda coja, así que ahí entra una décima. La lista cambia de
+  // verdad en vez de ocultar un disparador con CSS: así el visor no navega a una
+  // imagen que no está en pantalla.
+  const tresColumnas = useMediaQuery('(min-width: 768px)')
+  const figuras = tresColumnas
+    ? visualLanguage.figures
+    : [...visualLanguage.figures, visualLanguage.fillerDosColumnas]
+
   const [openAt, setOpenAt] = useState<number | null>(null)
   const triggers = useRef<Array<HTMLButtonElement | null>>([])
   const ultimaAbierta = useRef<number | null>(null)
@@ -34,7 +44,7 @@ export default function VisualLanguage() {
   return (
     <>
       <ul className="language-grid">
-        {visualLanguage.figures.map((figure, index) => (
+        {figuras.map((figure, index) => (
           <li
             className="language-figure"
             key={figure.image}
@@ -63,7 +73,7 @@ export default function VisualLanguage() {
 
       {openAt !== null ? (
         <Lightbox
-          figures={visualLanguage.figures}
+          figures={figuras}
           index={openAt}
           onClose={close}
           onNavigate={setOpenAt}

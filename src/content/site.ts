@@ -245,6 +245,20 @@ export const visualLanguage = {
       weight: 'normal',
     },
   ] satisfies Figure[],
+  /**
+   * Décima imagen, sólo para cuando la retícula va en dos columnas.
+   *
+   * Con nueve imágenes, tres columnas dan tres filas exactas, pero dos columnas
+   * dejan la última fila coja. Esta rellena ese hueco sin tocar la composición de
+   * escritorio, que es la que la clienta aprobó.
+   */
+  fillerDosColumnas: {
+    image: 'lenguaje-estudio-integrado',
+    alt: 'Estudio integrado con recámara, sala y cocina en un solo espacio, con carpintería de madera clara y luz oculta sobre la cabecera.',
+    width: 763,
+    height: 763,
+    weight: 'normal',
+  } satisfies Figure,
   /** Imagen de respiro a sangre completa entre bloques. */
   fullBleed: {
     image: 'lenguaje-comedor-espejo',
@@ -388,7 +402,7 @@ export const transformation = {
           height: 964,
           weight: 'normal',
         },
-        label: 'Propuesta',
+        label: 'Después',
       },
     },
   ] satisfies TransformationCase[],

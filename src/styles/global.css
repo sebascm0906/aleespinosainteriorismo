@@ -766,24 +766,18 @@ main[id] {
    título justificado abre huecos enormes entre palabras porque son pocas y
    grandes.
 
-   Sólo desde 768px. Medido a 1440px, los renglones completos van de 85 a 87
-   caracteres en filosofía, 43 a 50 en servicios y 68 a 79 en la biografía: entre
-   0 y 15% de variación, y el justificado se ve parejo. En móvil las columnas caen
-   a 34-47 caracteres con 32% de variación, y ahí los espacios se estiran al doble
-   en algunos renglones: eso sí produce ríos, peor que el borde irregular.
-
-   `hyphens: auto` reparte mejor; el html declara lang="es-MX", de donde el
-   navegador toma las reglas de partición. */
-@media (min-width: 768px) {
-  .philosophy-body p,
-  .studio-body p:not(.studio-role),
-  .services-list p,
-  .contact-copy p,
-  .section-heading > p:not(.eyebrow),
-  .disclosure {
-    text-align: justify;
-    hyphens: auto;
-  }
+   Va en todos los anchos por decisión de la clienta. En móvil la columna baja a
+   34-47 caracteres y ahí el justificado estira más los espacios; `hyphens: auto`
+   es lo que lo hace tolerable, partiendo palabras en vez de abrir huecos. El html
+   declara lang="es-MX", de donde el navegador toma las reglas de partición. */
+.philosophy-body p,
+.studio-body p:not(.studio-role),
+.services-list p,
+.contact-copy p,
+.section-heading > p:not(.eyebrow),
+.disclosure {
+  text-align: justify;
+  hyphens: auto;
 }
 
 .studio-portrait {
