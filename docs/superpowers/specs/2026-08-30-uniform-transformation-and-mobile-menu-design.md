@@ -10,9 +10,11 @@ expandida de móvil por un menú hamburguesa compacto y accesible.
 - Cada `figure > picture` del par comparativo será el marco con la proporción
   estable `1165 / 1040`, igual a la utilizada por los casos originales. El
   `figcaption` queda fuera del marco y debajo de él.
-- El marco `picture` usa `display: block`, `width: 100%`, `height: 100%` y
-  `overflow: hidden`; su `img` llena esas dos dimensiones con `display: block`
-  y `object-fit: cover`. El recorte nunca deforma la imagen.
+- El marco `picture` usa `display: block`, `width: 100%`, `aspect-ratio: 1165 /
+  1040` y `overflow: hidden`, sin `height: 100%`: la proporción determina su
+  propia altura y mantiene el `figcaption` fuera del marco. Su `img` llena el
+  marco con `display: block`, `width: 100%`, `height: 100%` y `object-fit:
+  cover`. El recorte nunca deforma la imagen.
 - El cambio aplica en escritorio y móvil. En móvil los paneles se apilan, pero
   cada uno conserva el mismo encuadre estable.
 - Los pies «Antes» y «Después» permanecen debajo de su respectiva imagen.

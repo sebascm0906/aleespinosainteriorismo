@@ -49,8 +49,8 @@
 
   Assert desktop exposes the horizontal nav but no hamburger. Add source-CSS
   contracts requiring `.carrusel .transformation-pair figure > picture` to have
-  `aspect-ratio: 1165 / 1040`, `display: block`, `width: 100%`, `height: 100%`
-  and overflow clipping, and its descendant image to have `display: block`,
+  `aspect-ratio: 1165 / 1040`, `display: block`, `width: 100%` and overflow
+  clipping (without `height: 100%`), and its descendant image to have `display: block`,
   `width: 100%`, `height: 100%` and `object-fit: cover`. Add source-CSS
   assertions for the mobile panel's absolute, full-viewport positioning below
   the header (`top: 100%`, `left: 50%`, `width: 100vw`, `translateX(-50%)`), distinct
@@ -123,7 +123,6 @@
   .carrusel .transformation-pair figure > picture {
     display: block;
     width: 100%;
-    height: 100%;
     aspect-ratio: 1165 / 1040;
     overflow: hidden;
   }
