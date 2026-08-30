@@ -96,6 +96,21 @@ describe('menú responsive del encabezado', () => {
     expect(document.getElementById('mobile-navigation')).toHaveAttribute('hidden')
   })
 
+  test('Escape desde el botón abierto cierra el panel y mantiene el foco en el botón', async () => {
+    const user = userEvent.setup()
+    installMediaQuery(true)
+    render(<Header />)
+
+    const { button } = mobileMenu()
+    await user.click(button)
+    button.focus()
+    await user.keyboard('{Escape}')
+
+    expect(button).toHaveAttribute('aria-expanded', 'false')
+    expect(button).toHaveFocus()
+    expect(document.getElementById('mobile-navigation')).toHaveAttribute('hidden')
+  })
+
   test('un enlace interno cierra el panel y devuelve el foco al botón', async () => {
     const user = userEvent.setup()
     installMediaQuery(true)

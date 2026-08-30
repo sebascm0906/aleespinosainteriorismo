@@ -42,7 +42,16 @@ export default function Header() {
   }
 
   return (
-    <header className="site-header shell" data-desplazado={scrolled ? 'true' : 'false'}>
+    <header
+      className="site-header shell"
+      data-desplazado={scrolled ? 'true' : 'false'}
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && isMobile && isOpen) {
+          event.preventDefault()
+          closeMenu(true)
+        }
+      }}
+    >
       <a ref={brandRef} className="brand" href={brand.homeHref} aria-label={brand.homeLabel}>
         <img src={brand.logo.monogram} alt={brand.logo.alt} width={755} height={418} />
       </a>
@@ -71,12 +80,6 @@ export default function Header() {
         className="mobile-navigation"
         aria-label="Navegación principal"
         hidden={isMobile && !isOpen}
-        onKeyDown={(event) => {
-          if (event.key === 'Escape' && isMobile && isOpen) {
-            event.preventDefault()
-            closeMenu(true)
-          }
-        }}
         onFocusCapture={() => {
           menuHasFocusRef.current = true
         }}
