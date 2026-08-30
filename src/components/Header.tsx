@@ -36,9 +36,14 @@ export default function Header() {
     if (isMobile && isOpen) firstLinkRef.current?.focus()
   }, [isMobile, isOpen])
 
-  const closeMenu = (focusToggle = false) => {
+  const closeMenu = (focusToggle = false, afterNavigation = false) => {
     setIsOpen(false)
-    if (focusToggle) toggleRef.current?.focus()
+    if (!focusToggle) return
+    if (afterNavigation) {
+      requestAnimationFrame(() => toggleRef.current?.focus())
+      return
+    }
+    toggleRef.current?.focus()
   }
 
   return (
@@ -95,7 +100,7 @@ export default function Header() {
                 href={item.href}
                 {...(item.isExternal ? { target: '_blank', rel: 'noreferrer' } : {})}
                 onClick={() => {
-                  if (!item.isExternal && isMobile) closeMenu(true)
+                  if (!item.isExternal && isMobile) closeMenu(true, true)
                 }}
               >
                 {item.label}

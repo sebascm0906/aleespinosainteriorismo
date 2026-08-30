@@ -121,7 +121,8 @@ describe('menú responsive del encabezado', () => {
     await user.click(within(nav).getByRole('link', { name: navigation[0].label }))
 
     expect(button).toHaveAttribute('aria-expanded', 'false')
-    expect(button).toHaveFocus()
+    await waitFor(() => expect(window.location.hash).toBe(navigation[0].href))
+    await waitFor(() => expect(button).toHaveFocus())
     expect(nav).toHaveAttribute('hidden')
   })
 
