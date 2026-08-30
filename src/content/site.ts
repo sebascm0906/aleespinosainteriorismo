@@ -253,9 +253,9 @@ export const visualLanguage = {
    * escritorio, que es la que la clienta aprobó.
    */
   fillerDosColumnas: {
-    image: 'lenguaje-estudio-integrado',
-    alt: 'Estudio integrado con recámara, sala y cocina en un solo espacio, con carpintería de madera clara y luz oculta sobre la cabecera.',
-    width: 763,
+    image: 'lenguaje-departamento-integrado',
+    alt: 'Estudio compacto con dormitorio, sala y cocina integrados, separados por un volumen de carpintería de madera clara.',
+    width: 1080,
     height: 763,
     weight: 'normal',
   } satisfies Figure,
@@ -363,20 +363,20 @@ export const transformation = {
       id: 'sala',
       before: {
         figure: {
-          image: 'transformacion-4-antes',
-          alt: 'Sala en obra: lonas de protección cubriendo el piso, sacos de material y herramienta frente al ventanal.',
-          width: 885,
-          height: 790,
+          image: 'transformacion-4-despues',
+          alt: 'Sala vacía con piso de madera, ventanal corrido y balcón con vista arbolada.',
+          width: 883,
+          height: 788,
           weight: 'normal',
         },
         label: 'Antes',
       },
       after: {
         figure: {
-          image: 'transformacion-4-despues',
-          alt: 'La misma sala terminada: piso de madera oscura, muros pintados y cortinas a los costados del ventanal que da al balcón.',
-          width: 883,
-          height: 788,
+          image: 'transformacion-4-sala-terminada',
+          alt: 'Sala y comedor terminados frente al ventanal, con panel de madera, sofá claro y mesa para seis.',
+          width: 784,
+          height: 596,
           weight: 'normal',
         },
         label: 'Después',
