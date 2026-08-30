@@ -775,7 +775,10 @@ main[id] {
 .services-list p,
 .contact-copy p,
 .section-heading > p:not(.eyebrow),
-.disclosure {
+.disclosure,
+.field-error,
+.contact-error-summary,
+.contact-status {
   text-align: justify;
   hyphens: auto;
 }
