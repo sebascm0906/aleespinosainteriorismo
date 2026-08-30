@@ -39,7 +39,10 @@ function installMediaQuery(initialMobile: boolean): MediaController {
 }
 
 function mobileMenu() {
-  const nav = screen.getByRole('navigation', { name: 'Navegación principal', hidden: true })
+  // Testing Library no calcula el nombre accesible de un elemento con `hidden`.
+  // El id estable permite comprobar el estado cerrado sin perder ese contrato.
+  const nav = document.getElementById('mobile-navigation')
+  if (!nav) throw new Error('No se encontró la navegación móvil')
   const button = screen.getByRole('button', { name: 'Abrir menú de navegación' })
   return { nav, button }
 }
@@ -72,6 +75,7 @@ describe('menú responsive del encabezado', () => {
     expect(button).toHaveAccessibleName('Cerrar menú de navegación')
     expect(button).toHaveAttribute('aria-expanded', 'true')
     expect(nav).not.toHaveAttribute('hidden')
+    expect(screen.getByRole('navigation', { name: 'Navegación principal' })).toBe(nav)
     navigation.forEach((item) => {
       expect(within(nav).getByRole('link', { name: item.label })).toHaveAttribute('href', item.href)
     })
@@ -89,9 +93,7 @@ describe('menú responsive del encabezado', () => {
 
     expect(button).toHaveAttribute('aria-expanded', 'false')
     expect(button).toHaveFocus()
-    expect(screen.getByRole('navigation', { name: 'Navegación principal', hidden: true })).toHaveAttribute(
-      'hidden',
-    )
+    expect(document.getElementById('mobile-navigation')).toHaveAttribute('hidden')
   })
 
   test('un enlace interno cierra el panel y devuelve el foco al botón', async () => {
@@ -126,7 +128,7 @@ describe('menú responsive del encabezado', () => {
     await act(async () => {
       breakpoint.emit(true)
     })
-    const mobile = screen.getByRole('navigation', { name: 'Navegación principal', hidden: true })
+    const mobile = document.getElementById('mobile-navigation')
     expect(mobile).toHaveAttribute('hidden')
   })
 
