@@ -232,6 +232,7 @@ test('mantiene el contrato visual de los marcos de comparación y del panel móv
   expect(css).toMatch(/\.carrusel \.transformation-pair figure > picture img[^{}]*\{[^}]*height:\s*100%/)
   expect(css).toMatch(/\.carrusel \.transformation-pair figure > picture img[^{}]*\{[^}]*object-fit:\s*cover/)
   expect(mobileCss).toMatch(/\.mobile-navigation[^{}]*\{[^}]*position:\s*absolute[^}]*top:\s*100%[^}]*left:\s*50%[^}]*width:\s*100vw[^}]*transform:\s*translateX\(-50%\)/)
+  expect(mobileCss).toMatch(/\.mobile-navigation[^{}]*\{[^}]*grid-column:\s*auto/)
   expect(desktopCss).toMatch(/\.mobile-navigation[^{}]*\{[^}]*position:\s*(?:static|relative|initial|unset)/)
   expect(css).toMatch(/\.menu-toggle[^{}]*\{[^}]*width:\s*44px[^}]*height:\s*44px/)
 })

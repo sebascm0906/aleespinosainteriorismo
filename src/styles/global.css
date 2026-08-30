@@ -1161,6 +1161,7 @@ main[id] {
 
   .mobile-navigation {
     position: absolute;
+    grid-column: auto;
     z-index: 31;
     top: 100%;
     left: 50%;
