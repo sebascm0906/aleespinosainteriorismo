@@ -1159,9 +1159,9 @@ main[id] {
     height: 1.25rem;
   }
 
-  .mobile-navigation {
+  .site-header .mobile-navigation {
     position: absolute;
-    grid-column: auto;
+    grid-column: 1 / -1;
     z-index: 31;
     top: 100%;
     left: 50%;
