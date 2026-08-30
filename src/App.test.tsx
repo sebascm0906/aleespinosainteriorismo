@@ -2,6 +2,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, vi } from 'vitest'
 import App from './App'
+import globalCss from './styles/global.css?raw'
 import { contact, navigation, sections, services, transformation, visualLanguage } from './content/site'
 
 const approvedFillerAlt =
@@ -17,6 +18,23 @@ const approvedDesktopFigureImages = [
   'lenguaje-cafe-barra',
   'lenguaje-recamara-estudio',
 ]
+
+function mediaBlock(css: string, query: string) {
+  const start = css.search(new RegExp(`@media\\s*\\(${query}\\)`))
+  if (start < 0) return ''
+  const opening = css.indexOf('{', start)
+  if (opening < 0) return ''
+
+  let depth = 0
+  for (let i = opening; i < css.length; i += 1) {
+    if (css[i] === '{') depth += 1
+    if (css[i] === '}') {
+      depth -= 1
+      if (depth === 0) return css.slice(start, i + 1)
+    }
+  }
+  return ''
+}
 
 function renderedGalleryImages(gallery: HTMLElement) {
   return within(gallery.querySelector('.language-grid')!)
@@ -197,6 +215,25 @@ test('sirve cada imagen como AVIF con respaldo WebP', () => {
     expect(webp?.getAttribute('srcset')).toContain(`/images/${figura.image}.webp`)
     expect(avif).toHaveAttribute('sizes')
   })
+})
+
+test('mantiene el contrato visual de los marcos de comparación y del panel móvil', () => {
+  const css = globalCss
+  const mobileCss = mediaBlock(css, 'max-width:\\s*767px')
+  const desktopCss = mediaBlock(css, 'min-width:\\s*768px')
+
+  expect(css).toMatch(/\.carrusel \.transformation-pair figure > picture[^{}]*\{[^}]*aspect-ratio:\s*1165 \/ 1040/)
+  expect(css).toMatch(/\.carrusel \.transformation-pair figure > picture[^{}]*\{[^}]*display:\s*block/)
+  expect(css).toMatch(/\.carrusel \.transformation-pair figure > picture[^{}]*\{[^}]*width:\s*100%/)
+  expect(css).toMatch(/\.carrusel \.transformation-pair figure > picture[^{}]*\{[^}]*height:\s*100%/)
+  expect(css).toMatch(/\.carrusel \.transformation-pair figure > picture[^{}]*\{[^}]*overflow:\s*hidden/)
+  expect(css).toMatch(/\.carrusel \.transformation-pair figure > picture img[^{}]*\{[^}]*display:\s*block/)
+  expect(css).toMatch(/\.carrusel \.transformation-pair figure > picture img[^{}]*\{[^}]*width:\s*100%/)
+  expect(css).toMatch(/\.carrusel \.transformation-pair figure > picture img[^{}]*\{[^}]*height:\s*100%/)
+  expect(css).toMatch(/\.carrusel \.transformation-pair figure > picture img[^{}]*\{[^}]*object-fit:\s*cover/)
+  expect(mobileCss).toMatch(/\.mobile-navigation[^{}]*\{[^}]*position:\s*absolute[^}]*top:\s*100%[^}]*left:\s*50%[^}]*width:\s*100vw[^}]*transform:\s*translateX\(-50%\)/)
+  expect(desktopCss).toMatch(/\.mobile-navigation[^{}]*\{[^}]*position:\s*(?:static|relative|initial|unset)/)
+  expect(css).toMatch(/\.menu-toggle[^{}]*\{[^}]*width:\s*44px[^}]*height:\s*44px/)
 })
 
 test('abre y cierra el visor con teclado y devuelve el foco al disparador', async () => {
