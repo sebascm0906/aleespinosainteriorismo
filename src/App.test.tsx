@@ -1,7 +1,24 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { afterEach, vi } from 'vitest'
 import App from './App'
 import { contact, navigation, sections, services, transformation, visualLanguage } from './content/site'
+
+const fillerAlt =
+  'Estudio compacto con dormitorio, sala y cocina integrados, separados por un volumen de carpintería de madera clara.'
+
+function setGalleryBreakpoint(matchesThreeColumns: boolean) {
+  vi.stubGlobal('matchMedia', (query: string) => ({
+    matches: query === '(min-width: 768px)' ? matchesThreeColumns : false,
+    media: query,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  }))
+}
+
+afterEach(() => {
+  vi.unstubAllGlobals()
+})
 
 test('encabeza con el nombre completo del estudio', () => {
   render(<App />)
@@ -102,6 +119,29 @@ test('la galería conserva su aviso de imágenes conceptuales', () => {
   render(<App />)
   const galeria = screen.getByRole('region', { name: sections.language.title })
   expect(within(galeria).getByText(visualLanguage.disclosure)).toBeInTheDocument()
+})
+
+test('en móvil completa la quinta fila con el décimo lenguaje aprobado', () => {
+  setGalleryBreakpoint(false)
+  render(<App />)
+
+  const galeria = screen.getByRole('region', { name: sections.language.title })
+  const tarjetas = within(galeria.querySelector('.language-grid')!).getAllByRole('listitem')
+
+  expect(tarjetas).toHaveLength(10)
+  const filler = within(tarjetas[9]).getByRole('img', { name: fillerAlt })
+  expect(filler).toHaveAttribute('src', expect.stringContaining('lenguaje-departamento-integrado.webp'))
+})
+
+test('desde 768 px conserva nueve lenguajes y omite el relleno móvil', () => {
+  setGalleryBreakpoint(true)
+  render(<App />)
+
+  const galeria = screen.getByRole('region', { name: sections.language.title })
+  const tarjetas = within(galeria.querySelector('.language-grid')!).getAllByRole('listitem')
+
+  expect(tarjetas).toHaveLength(9)
+  expect(within(galeria).queryByRole('img', { name: fillerAlt })).not.toBeInTheDocument()
 })
 
 test('cada imagen de contenido reserva su espacio y difiere la carga salvo el LCP', () => {

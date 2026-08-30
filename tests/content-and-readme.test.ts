@@ -1,6 +1,5 @@
-import { readFileSync } from 'node:fs'
-import { existsSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import { describe, expect, test } from 'vitest'
 import { contact, hero, studio, transformation, visualLanguage } from '../src/content/site'
 
@@ -34,6 +33,39 @@ describe('contrato de imágenes', () => {
       expect(existsSync(resolve(base, nombre)), `falta ${nombre}`).toBe(true)
     }
   })
+
+  test('sustituye los activos del caso sala y retira la foto de obra', () => {
+    const base = resolve(process.cwd(), 'public/images')
+    const nuevosActivos = ['transformacion-4-despues', 'transformacion-4-sala-terminada']
+    const retirados = ['transformacion-4-antes.avif', 'transformacion-4-antes.webp',
+      'transformacion-4-antes-640.avif', 'transformacion-4-antes-640.webp']
+
+    nuevosActivos.forEach((image) => {
+      for (const extension of ['avif', 'webp']) {
+        expect(existsSync(resolve(base, `${image}.${extension}`)), `falta ${image}.${extension}`).toBe(true)
+        expect(existsSync(resolve(base, `${image}-640.${extension}`)), `falta ${image}-640.${extension}`).toBe(true)
+      }
+    })
+    retirados.forEach((image) => {
+      expect(existsSync(resolve(base, image)), `${image} ya no debe publicarse`).toBe(false)
+    })
+  })
+
+  test('no conserva el identificador retirado de sala en el código publicado', () => {
+    const components = resolve(process.cwd(), 'src/components')
+    const componentFiles = readdirSync(components, { recursive: true })
+      .filter((file) => /\.(ts|tsx)$/.test(file))
+      .map((file) => join(components, file))
+    const sourceFiles = [
+      resolve(process.cwd(), 'src/content/site.ts'),
+      resolve(process.cwd(), 'src/App.tsx'),
+      ...componentFiles,
+    ]
+
+    sourceFiles.forEach((file) => {
+      expect(readFileSync(file, 'utf8'), file).not.toContain('transformacion-4-antes')
+    })
+  })
 })
 
 describe('honestidad del contenido', () => {
@@ -51,6 +83,27 @@ describe('honestidad del contenido', () => {
     expect(visualLanguage.disclosure.trim().length).toBeGreaterThan(0)
   })
 
+  test('el caso sala usa el espacio vacío como Antes y la sala terminada como Después', () => {
+    const sala = transformation.cases.find(({ id }) => id === 'sala')
+
+    expect(sala).toMatchObject({
+      before: {
+        figure: {
+          image: 'transformacion-4-despues',
+          alt: 'Sala vacía con piso de madera, ventanal corrido y balcón con vista arbolada.',
+        },
+        label: 'Antes',
+      },
+      after: {
+        figure: {
+          image: 'transformacion-4-sala-terminada',
+          alt: 'Sala y comedor terminados frente al ventanal, con panel de madera, sofá claro y mesa para seis.',
+        },
+        label: 'Después',
+      },
+    })
+  })
+
   test('la galería declara la naturaleza de las imágenes', () => {
     // Los cinco casos dicen "Después" por decisión de la clienta, incluido el de
     // la terraza, cuya segunda imagen es un render. Con eso, el aviso de la
@@ -64,6 +117,55 @@ describe('honestidad del contenido', () => {
     const fuente = readFileSync(resolve(process.cwd(), 'src/content/site.ts'), 'utf8')
     const cuerpo = fuente.slice(fuente.indexOf('export const hero'))
     expect(cuerpo).not.toMatch(/\b\d+\s*(años|proyectos|clientes|premios)\b/i)
+  })
+})
+
+describe('tipografía de texto corrido', () => {
+  test('justifica y parte palabras sólo en el grupo aprobado de texto corrido', () => {
+    const css = readFileSync(resolve(process.cwd(), 'src/styles/global.css'), 'utf8')
+    const regla = css
+      .split('}')
+      .map((bloque) => `${bloque}}`)
+      .find((bloque) => bloque.includes('text-align: justify') && bloque.includes('hyphens: auto'))
+
+    expect(regla).toBeDefined()
+    const selectors = regla!
+      .slice(0, regla!.indexOf('{'))
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .split(',')
+      .map((selector) => selector.trim())
+      .filter(Boolean)
+
+    expect(selectors).toEqual([
+      '.philosophy-body p',
+      '.studio-body p:not(.studio-role)',
+      '.services-list p',
+      '.contact-copy p',
+      '.section-heading > p:not(.eyebrow)',
+      '.disclosure',
+      '.field-error',
+      '.contact-error-summary',
+      '.contact-status',
+    ])
+
+    for (const selector of ['nav', 'h1', 'h2', 'h3', 'button', 'label', 'figcaption', '.eyebrow']) {
+      expect(selectors).not.toContain(selector)
+    }
+  })
+})
+
+describe('retícula de lenguaje visual', () => {
+  test('usa tres columnas por defecto y dos únicamente debajo de 768 px', () => {
+    const css = readFileSync(resolve(process.cwd(), 'src/styles/global.css'), 'utf8')
+    const defaultGrid = css.match(/\.language-grid\s*\{[^}]*\}/)?.[0]
+    const mobileBreakpoint = css.indexOf('@media (max-width: 767px)')
+    const nextBreakpoint = css.indexOf('@media', mobileBreakpoint + 1)
+    const twoColumnRules = [...css.matchAll(/\.language-grid\s*\{[^}]*repeat\(2, minmax\(0, 1fr\)\)[^}]*\}/g)]
+
+    expect(defaultGrid).toContain('grid-template-columns: repeat(3, minmax(0, 1fr));')
+    expect(twoColumnRules).toHaveLength(1)
+    expect(twoColumnRules[0].index).toBeGreaterThan(mobileBreakpoint)
+    expect(twoColumnRules[0].index).toBeLessThan(nextBreakpoint)
   })
 })
 
