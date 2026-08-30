@@ -254,6 +254,10 @@ h3 {
   grid-column: 6 / -1;
 }
 
+.menu-toggle {
+  display: none;
+}
+
 .site-navigation {
   display: flex;
   justify-content: flex-end;
@@ -596,11 +600,20 @@ main[id] {
   min-width: 0;
 }
 
-/* Todas las imágenes comparten la proporción del caso original: sin esto el
-   carrusel salta de alto al cambiar de vista, porque los recortes difieren en
-   algunos píxeles. */
-.carrusel .transformation-pair figure img {
+/* El <picture> fija el marco común del caso. El caption queda fuera del marco
+   para que no altere la altura de la comparación. */
+.carrusel .transformation-pair figure > picture {
+  display: block;
+  width: 100%;
+  height: 100%;
   aspect-ratio: 1165 / 1040;
+  overflow: hidden;
+}
+
+.carrusel .transformation-pair figure > picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -1118,20 +1131,59 @@ main[id] {
 
 @media (max-width: 767px) {
   .site-header {
-    align-items: start;
-    row-gap: 0.5rem;
-    padding-block: 0.75rem;
+    align-items: center;
+    row-gap: 0;
+    padding-block: 0.5rem;
   }
 
-  .brand,
-  .site-header nav {
-    grid-column: 1 / -1;
+  .brand {
+    grid-column: 1 / -2;
   }
 
-  .site-navigation {
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 0 1.1rem;
+  .menu-toggle {
+    display: inline-grid;
+    grid-column: -2 / -1;
+    place-items: center;
+    justify-self: end;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--borde);
+    background: transparent;
+    color: var(--acento);
+    cursor: pointer;
+  }
+
+  .menu-toggle svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .mobile-navigation {
+    position: absolute;
+    z-index: 31;
+    top: 100%;
+    left: 50%;
+    width: 100vw;
+    padding: 0.75rem var(--margen);
+    border-bottom: 1px solid var(--borde);
+    background: var(--tinta);
+    box-shadow: 0 1rem 2rem color-mix(in srgb, #000 30%, transparent);
+    transform: translateX(-50%);
+  }
+
+  .mobile-navigation .site-navigation {
+    display: grid;
+    gap: 0;
+  }
+
+  .mobile-navigation .site-navigation a {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .mobile-navigation .site-navigation a::after {
+    bottom: 0;
   }
 
   .language-grid {
@@ -1150,6 +1202,14 @@ main[id] {
   .floating-whatsapp {
     right: max(1rem, env(safe-area-inset-right));
     bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-navigation {
+    position: static;
+    width: auto;
+    transform: none;
   }
 }
 
