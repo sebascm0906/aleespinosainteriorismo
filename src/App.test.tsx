@@ -6,7 +6,17 @@ import { contact, navigation, sections, services, transformation, visualLanguage
 
 const fillerAlt =
   'Estudio compacto con dormitorio, sala y cocina integrados, separados por un volumen de carpintería de madera clara.'
-const desktopFigureImages = visualLanguage.figures.map(({ image }) => image)
+const approvedDesktopFigureImages = [
+  'lenguaje-terraza-pergola',
+  'lenguaje-cafe-banca',
+  'lenguaje-sala-arena',
+  'lenguaje-estar-vinos',
+  'lenguaje-despacho-marmol',
+  'lenguaje-cafe-fachada',
+  'lenguaje-estudio-nogal',
+  'lenguaje-cafe-barra',
+  'lenguaje-recamara-estudio',
+]
 
 function renderedGalleryImages(gallery: HTMLElement) {
   return within(gallery.querySelector('.language-grid')!)
@@ -137,7 +147,7 @@ test('en móvil completa la quinta fila con el décimo lenguaje aprobado', () =>
 
   expect(tarjetas).toHaveLength(10)
   expect(renderedGalleryImages(galeria)).toEqual([
-    ...desktopFigureImages,
+    ...approvedDesktopFigureImages,
     'lenguaje-departamento-integrado',
   ])
   const filler = within(tarjetas[9]).getByRole('img', { name: fillerAlt })
@@ -152,8 +162,8 @@ test('desde 768 px conserva nueve lenguajes y omite el relleno móvil', () => {
   const tarjetas = within(galeria.querySelector('.language-grid')!).getAllByRole('listitem')
 
   expect(tarjetas).toHaveLength(9)
-  expect(desktopFigureImages).toHaveLength(9)
-  expect(renderedGalleryImages(galeria)).toEqual(desktopFigureImages)
+  expect(approvedDesktopFigureImages).toHaveLength(9)
+  expect(renderedGalleryImages(galeria)).toEqual(approvedDesktopFigureImages)
   expect(within(galeria).queryByRole('img', { name: fillerAlt })).not.toBeInTheDocument()
 })
 
