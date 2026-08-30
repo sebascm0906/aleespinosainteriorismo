@@ -52,15 +52,11 @@ describe('contrato de imágenes', () => {
   })
 
   test('no conserva el identificador retirado de sala en el código publicado', () => {
-    const components = resolve(process.cwd(), 'src/components')
-    const componentFiles = readdirSync(components, { recursive: true })
+    const sourceRoot = resolve(process.cwd(), 'src')
+    const sourceFiles = readdirSync(sourceRoot, { recursive: true })
       .filter((file) => /\.(ts|tsx)$/.test(file))
-      .map((file) => join(components, file))
-    const sourceFiles = [
-      resolve(process.cwd(), 'src/content/site.ts'),
-      resolve(process.cwd(), 'src/App.tsx'),
-      ...componentFiles,
-    ]
+      .filter((file) => !file.split('/').includes('test') && !/\.test\.(ts|tsx)$/.test(file))
+      .map((file) => join(sourceRoot, file))
 
     sourceFiles.forEach((file) => {
       expect(readFileSync(file, 'utf8'), file).not.toContain('transformacion-4-antes')
@@ -158,14 +154,28 @@ describe('retícula de lenguaje visual', () => {
   test('usa tres columnas por defecto y dos únicamente debajo de 768 px', () => {
     const css = readFileSync(resolve(process.cwd(), 'src/styles/global.css'), 'utf8')
     const defaultGrid = css.match(/\.language-grid\s*\{[^}]*\}/)?.[0]
-    const mobileBreakpoint = css.indexOf('@media (max-width: 767px)')
-    const nextBreakpoint = css.indexOf('@media', mobileBreakpoint + 1)
-    const twoColumnRules = [...css.matchAll(/\.language-grid\s*\{[^}]*repeat\(2, minmax\(0, 1fr\)\)[^}]*\}/g)]
+    const mobileMedia = '@media (max-width: 767px)'
+    const mobileMediaStart = css.indexOf(mobileMedia)
+
+    expect(mobileMediaStart).toBeGreaterThanOrEqual(0)
+    const openBrace = css.indexOf('{', mobileMediaStart)
+    let depth = 0
+    let closeBrace = -1
+    for (let index = openBrace; index < css.length; index += 1) {
+      if (css[index] === '{') depth += 1
+      if (css[index] === '}') depth -= 1
+      if (depth === 0) {
+        closeBrace = index
+        break
+      }
+    }
+    const mobileBlock = css.slice(mobileMediaStart, closeBrace + 1)
+    const cssOutsideMobileBlock = css.slice(0, mobileMediaStart) + css.slice(closeBrace + 1)
 
     expect(defaultGrid).toContain('grid-template-columns: repeat(3, minmax(0, 1fr));')
-    expect(twoColumnRules).toHaveLength(1)
-    expect(twoColumnRules[0].index).toBeGreaterThan(mobileBreakpoint)
-    expect(twoColumnRules[0].index).toBeLessThan(nextBreakpoint)
+    expect(closeBrace).toBeGreaterThan(openBrace)
+    expect(mobileBlock).toMatch(/\.language-grid\s*\{[^}]*repeat\(2, minmax\(0, 1fr\)\)[^}]*\}/)
+    expect(cssOutsideMobileBlock).not.toMatch(/\.language-grid\s*\{[^}]*repeat\(2, minmax\(0, 1fr\)\)[^}]*\}/)
   })
 })
 

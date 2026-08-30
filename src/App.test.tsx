@@ -6,6 +6,13 @@ import { contact, navigation, sections, services, transformation, visualLanguage
 
 const fillerAlt =
   'Estudio compacto con dormitorio, sala y cocina integrados, separados por un volumen de carpintería de madera clara.'
+const desktopFigureImages = visualLanguage.figures.map(({ image }) => image)
+
+function renderedGalleryImages(gallery: HTMLElement) {
+  return within(gallery.querySelector('.language-grid')!)
+    .getAllByRole('img')
+    .map((image) => image.getAttribute('src')?.replace('/images/', '').replace('.webp', ''))
+}
 
 function setGalleryBreakpoint(matchesThreeColumns: boolean) {
   vi.stubGlobal('matchMedia', (query: string) => ({
@@ -129,6 +136,10 @@ test('en móvil completa la quinta fila con el décimo lenguaje aprobado', () =>
   const tarjetas = within(galeria.querySelector('.language-grid')!).getAllByRole('listitem')
 
   expect(tarjetas).toHaveLength(10)
+  expect(renderedGalleryImages(galeria)).toEqual([
+    ...desktopFigureImages,
+    'lenguaje-departamento-integrado',
+  ])
   const filler = within(tarjetas[9]).getByRole('img', { name: fillerAlt })
   expect(filler).toHaveAttribute('src', expect.stringContaining('lenguaje-departamento-integrado.webp'))
 })
@@ -141,6 +152,8 @@ test('desde 768 px conserva nueve lenguajes y omite el relleno móvil', () => {
   const tarjetas = within(galeria.querySelector('.language-grid')!).getAllByRole('listitem')
 
   expect(tarjetas).toHaveLength(9)
+  expect(desktopFigureImages).toHaveLength(9)
+  expect(renderedGalleryImages(galeria)).toEqual(desktopFigureImages)
   expect(within(galeria).queryByRole('img', { name: fillerAlt })).not.toBeInTheDocument()
 })
 
