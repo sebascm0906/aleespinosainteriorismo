@@ -8,6 +8,49 @@ const figuras = [hero.figure, visualLanguage.fullBleed, visualLanguage.fillerDos
                  ...transformation.cases.flatMap((c) => [c.before.figure, c.after.figure]),
                  ...(studio.portrait ? [studio.portrait] : [])]
 
+function declarationsForSelector(css: string, target: string) {
+  const declarations = new Map<string, string>()
+  const rules = css.matchAll(/([^{}]+)\{([^{}]*)\}/g)
+
+  for (const [, rawSelectors, rawDeclarations] of rules) {
+    const selectors = rawSelectors
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .split(',')
+      .map((selector) => selector.trim())
+    if (!selectors.includes(target)) continue
+
+    for (const [, property, value] of rawDeclarations.matchAll(/([\w-]+)\s*:\s*([^;]+);/g)) {
+      declarations.set(property, value.trim())
+    }
+  }
+
+  return declarations
+}
+
+function justifiedSelectors(css: string) {
+  return [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+    .filter(([, , declarations]) => /text-align\s*:\s*justify\s*;/.test(declarations))
+    .flatMap(([, rawSelectors]) => rawSelectors
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .split(',')
+      .map((selector) => selector.trim())
+      .filter(Boolean))
+}
+
+function blockAt(css: string, start: number) {
+  const openBrace = css.indexOf('{', start)
+  if (start < 0 || openBrace < 0) return undefined
+
+  let depth = 0
+  for (let index = openBrace; index < css.length; index += 1) {
+    if (css[index] === '{') depth += 1
+    if (css[index] === '}') depth -= 1
+    if (depth === 0) return css.slice(start, index + 1)
+  }
+
+  return undefined
+}
+
 describe('contrato de imágenes', () => {
   test.each(figuras)('$image declara alt descriptivo y dimensiones reales', (figura) => {
     expect(figura.image).toMatch(/^[a-z0-9-]+$/)
@@ -117,22 +160,9 @@ describe('honestidad del contenido', () => {
 })
 
 describe('tipografía de texto corrido', () => {
-  test('justifica y parte palabras sólo en el grupo aprobado de texto corrido', () => {
+  test('justifica y parte palabras en cada selector aprobado de texto corrido', () => {
     const css = readFileSync(resolve(process.cwd(), 'src/styles/global.css'), 'utf8')
-    const regla = css
-      .split('}')
-      .map((bloque) => `${bloque}}`)
-      .find((bloque) => bloque.includes('text-align: justify') && bloque.includes('hyphens: auto'))
-
-    expect(regla).toBeDefined()
-    const selectors = regla!
-      .slice(0, regla!.indexOf('{'))
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .split(',')
-      .map((selector) => selector.trim())
-      .filter(Boolean)
-
-    expect(selectors).toEqual([
+    const requiredSelectors = [
       '.philosophy-body p',
       '.studio-body p:not(.studio-role)',
       '.services-list p',
@@ -142,40 +172,34 @@ describe('tipografía de texto corrido', () => {
       '.field-error',
       '.contact-error-summary',
       '.contact-status',
-    ])
+    ]
 
-    for (const selector of ['nav', 'h1', 'h2', 'h3', 'button', 'label', 'figcaption', '.eyebrow']) {
-      expect(selectors).not.toContain(selector)
+    for (const selector of requiredSelectors) {
+      const declarations = declarationsForSelector(css, selector)
+      expect(declarations.get('text-align')).toBe('justify')
+      expect(declarations.get('hyphens')).toBe('auto')
     }
+
+    const forbiddenSelector = /(^|[\s>+~])(nav|h1|h2|h3|button|label|figcaption)\b|\.eyebrow\b(?!\))/
+    expect(justifiedSelectors(css).filter((selector) => forbiddenSelector.test(selector))).toEqual([])
   })
 })
 
 describe('retícula de lenguaje visual', () => {
-  test('usa tres columnas por defecto y dos únicamente debajo de 768 px', () => {
+  test('usa tres columnas por defecto y dos dentro del media query móvil literal', () => {
     const css = readFileSync(resolve(process.cwd(), 'src/styles/global.css'), 'utf8')
-    const defaultGrid = css.match(/\.language-grid\s*\{[^}]*\}/)?.[0]
-    const mobileMedia = '@media (max-width: 767px)'
-    const mobileMediaStart = css.indexOf(mobileMedia)
+    const mobileBlock = blockAt(css, css.indexOf('@media (max-width: 767px)'))
 
-    expect(mobileMediaStart).toBeGreaterThanOrEqual(0)
-    const openBrace = css.indexOf('{', mobileMediaStart)
-    let depth = 0
-    let closeBrace = -1
-    for (let index = openBrace; index < css.length; index += 1) {
-      if (css[index] === '{') depth += 1
-      if (css[index] === '}') depth -= 1
-      if (depth === 0) {
-        closeBrace = index
-        break
-      }
-    }
-    const mobileBlock = css.slice(mobileMediaStart, closeBrace + 1)
-    const cssOutsideMobileBlock = css.slice(0, mobileMediaStart) + css.slice(closeBrace + 1)
+    expect(mobileBlock).toBeDefined()
+    expect(declarationsForSelector(mobileBlock!, '.language-grid').get('grid-template-columns'))
+      .toBe('repeat(2, minmax(0, 1fr))')
 
-    expect(defaultGrid).toContain('grid-template-columns: repeat(3, minmax(0, 1fr));')
-    expect(closeBrace).toBeGreaterThan(openBrace)
-    expect(mobileBlock).toMatch(/\.language-grid\s*\{[^}]*repeat\(2, minmax\(0, 1fr\)\)[^}]*\}/)
-    expect(cssOutsideMobileBlock).not.toMatch(/\.language-grid\s*\{[^}]*repeat\(2, minmax\(0, 1fr\)\)[^}]*\}/)
+    const cssWithoutMobileBlock = css.replace(mobileBlock!, '')
+    expect(declarationsForSelector(cssWithoutMobileBlock, '.language-grid').get('grid-template-columns'))
+      .toBe('repeat(3, minmax(0, 1fr))')
+    expect(cssWithoutMobileBlock).not.toMatch(
+      /\.language-grid\s*\{[^}]*grid-template-columns\s*:\s*repeat\(2, minmax\(0, 1fr\)\)/,
+    )
   })
 })
 

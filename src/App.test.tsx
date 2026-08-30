@@ -4,7 +4,7 @@ import { afterEach, vi } from 'vitest'
 import App from './App'
 import { contact, navigation, sections, services, transformation, visualLanguage } from './content/site'
 
-const fillerAlt =
+const approvedFillerAlt =
   'Estudio compacto con dormitorio, sala y cocina integrados, separados por un volumen de carpintería de madera clara.'
 const approvedDesktopFigureImages = [
   'lenguaje-terraza-pergola',
@@ -150,7 +150,7 @@ test('en móvil completa la quinta fila con el décimo lenguaje aprobado', () =>
     ...approvedDesktopFigureImages,
     'lenguaje-departamento-integrado',
   ])
-  const filler = within(tarjetas[9]).getByRole('img', { name: fillerAlt })
+  const filler = within(tarjetas[9]).getByRole('img', { name: approvedFillerAlt })
   expect(filler).toHaveAttribute('src', expect.stringContaining('lenguaje-departamento-integrado.webp'))
 })
 
@@ -164,7 +164,7 @@ test('desde 768 px conserva nueve lenguajes y omite el relleno móvil', () => {
   expect(tarjetas).toHaveLength(9)
   expect(approvedDesktopFigureImages).toHaveLength(9)
   expect(renderedGalleryImages(galeria)).toEqual(approvedDesktopFigureImages)
-  expect(within(galeria).queryByRole('img', { name: fillerAlt })).not.toBeInTheDocument()
+  expect(within(galeria).queryByRole('img', { name: approvedFillerAlt })).not.toBeInTheDocument()
 })
 
 test('cada imagen de contenido reserva su espacio y difiere la carga salvo el LCP', () => {
